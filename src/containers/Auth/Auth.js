@@ -7,6 +7,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import homeImage from '../../assets/images/DailyStandup3Ds.png';
 
 class Auth extends Component {
 	state = {
@@ -137,6 +138,9 @@ class Auth extends Component {
 		}
 		return (
 			<div className={classes.Auth}>
+				<div className={classes.Logo}>
+					<img src={homeImage} alt="Home" />
+				</div>
 				{form}
 				{errorMessage}
 				{1 === 2 && (

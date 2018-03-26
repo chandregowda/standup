@@ -10,7 +10,7 @@ import Auth from './Auth/Auth';
 import Logout from './Auth/Logout/Logout';
 import * as actions from '../store/actions/index';
 import DailyUpdates from './DailyUpdates/DailyUpdates';
-import DailyUpdateData from './DailyUpdateData/DailyUpdateData';
+import Reports from './Reports/Reports';
 import Home from '../components/Home/Home';
 
 // This _datepicker css is required for Calander component
@@ -36,7 +36,7 @@ class App extends Component {
 				<Switch>
 					<Route path="/auth" component={Auth} />
 					<Route path="/logout" component={Logout} />
-					<Route path="/dailyUpdateData" component={DailyUpdateData} />
+					<Route path="/Reports" component={Reports} />
 					<Route path="/dailyUpdates" component={DailyUpdates} />
 					<Route path="/" exact component={Home} />
 				</Switch>

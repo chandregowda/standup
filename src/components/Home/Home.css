@@ -7,3 +7,13 @@
 .Jumbotext {
 	font-size: 48px;
 }
+.Logo {
+	background-color: transparent;
+	padding: 1px;
+	height: 100%;
+	box-sizing: border-box;
+	/* border-radius: 5px; */
+}
+.Logo img {
+	height: 100%;
+}

@@ -1,3 +1,30 @@
 .DailyUpdates {
 	font-size: inherit;
+	text-align: center;
+	box-sizing: border-box;
+}
+.Form {
+	margin: 10px auto;
+	width: 80%;
+	text-align: center;
+	box-shadow: 0 2px 3px #ccc;
+	border: 1px solid #eee;
+	padding: 10px;
+	box-sizing: border-box;
+}
+.imgContainer {
+	height: 250px;
+}
+.imgContainer img {
+	height: 100%;
+}
+
+@media (max-width: 500px) {
+	.imgContainer {
+		height: 30%;
+	}
+	.imgContainer img {
+		width: 80%;
+		height: auto;
+	}
 }

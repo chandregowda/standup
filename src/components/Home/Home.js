@@ -11,6 +11,12 @@ const home = (props) => {
 				<p className={classes.Jumbotext}> Daily Scrum </p>
 			</div>
 			<img src={homeImage} alt="Home" />
+			<section>
+				<h4>15 minutes of daily standup meeting to save hours wasted in daily meetings.</h4>
+				<p>
+					<em>Improves team efficiency to do better work!</em>
+				</p>
+			</section>
 		</div>
 	);
 };

@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import updateObject from '../utility';
 
 const INITIAL_STATE = {
-	updates: [],
+	dailyUpdates: [],
 	loading: false,
 	error: false
 };
@@ -10,11 +10,20 @@ const INITIAL_STATE = {
 const fetchDailyUpdatesStart = (state, action) => {
 	return updateObject(state, { error: false, loading: true });
 };
-
 const fetchDailyUpdatesSuccess = (state, action) => {
 	return updateObject(state, { loading: false });
 };
 const fetchDailyUpdatesFail = (state, action) => {
+	return updateObject(state, { loading: false });
+};
+
+const submitDailyUpdatesStart = (state, action) => {
+	return updateObject(state, { error: false, loading: true });
+};
+const submitDailyUpdatesSuccess = (state, action) => {
+	return updateObject(state, { loading: false });
+};
+const submitDailyUpdatesFail = (state, action) => {
 	return updateObject(state, { loading: false });
 };
 
@@ -31,6 +40,13 @@ export default (state = INITIAL_STATE, action) => {
 			return fetchDailyUpdatesSuccess(state, action);
 		case actionTypes.FETCH_DAILY_UPDATES_FAIL:
 			return fetchDailyUpdatesFail(state, action);
+
+		case actionTypes.SUBMIT_DAILY_UPDATES_START:
+			return submitDailyUpdatesStart(state, action);
+		case actionTypes.SUBMIT_DAILY_UPDATES_SUCCESS:
+			return submitDailyUpdatesSuccess(state, action);
+		case actionTypes.SUBMIT_DAILY_UPDATES_FAIL:
+			return submitDailyUpdatesFail(state, action);
 
 		default:
 			return state;
