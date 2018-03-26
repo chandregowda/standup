@@ -1,0 +1,17 @@
+.Logo {
+	background-color: transparent;
+	padding: 1px;
+	height: 100%;
+	box-sizing: border-box;
+	/* border-radius: 5px; */
+}
+.Logo img {
+	height: 100%;
+}
+@media (max-width: 499px) {
+	.Logo {
+		/* border-bottom: 1px solid #ccc; */
+		/* box-shadow: 0 2px 1px #ccc; */
+		text-align: center;
+	}
+}

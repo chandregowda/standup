@@ -1,0 +1,38 @@
+import * as actionTypes from '../actions/actionTypes';
+import updateObject from '../utility';
+
+const INITIAL_STATE = {
+	updates: [],
+	loading: false,
+	error: false
+};
+
+const fetchDailyUpdatesStart = (state, action) => {
+	return updateObject(state, { error: false, loading: true });
+};
+
+const fetchDailyUpdatesSuccess = (state, action) => {
+	return updateObject(state, { loading: false });
+};
+const fetchDailyUpdatesFail = (state, action) => {
+	return updateObject(state, { loading: false });
+};
+
+/**
+* @param {Object} state - Default application state
+* @param {Object} action - Action from action creator
+* @returns {Object} New state
+*/
+export default (state = INITIAL_STATE, action) => {
+	switch (action.type) {
+		case actionTypes.FETCH_DAILY_UPDATES_START:
+			return fetchDailyUpdatesStart(state, action);
+		case actionTypes.FETCH_DAILY_UPDATES_SUCCESS:
+			return fetchDailyUpdatesSuccess(state, action);
+		case actionTypes.FETCH_DAILY_UPDATES_FAIL:
+			return fetchDailyUpdatesFail(state, action);
+
+		default:
+			return state;
+	}
+};
