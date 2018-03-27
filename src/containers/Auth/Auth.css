@@ -7,6 +7,11 @@
 	padding: 10px;
 	box-sizing: border-box;
 }
+.ERROR {
+	color: red;
+	font-weight: bold;
+	font-size: 12px;
+}
 @media (min-width: 600px) {
 	.Auth {
 		width: 300px;

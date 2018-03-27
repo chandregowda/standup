@@ -134,7 +134,11 @@ class Auth extends Component {
 		}
 		let errorMessage = '';
 		if (this.props.error) {
-			errorMessage = <p className={classes.ERROR}>{this.props.error.message}</p>;
+			if (this.props.error.message === 'INVALID_CREDS') {
+				errorMessage = <p className={classes.ERROR}>Invalid Credientials, Failed to login</p>;
+			} else {
+				errorMessage = <p className={classes.ERROR}>{this.props.error.message}</p>;
+			}
 		}
 		return (
 			<div className={classes.Auth}>
