@@ -11,7 +11,7 @@ const fetchDailyUpdatesStart = (state, action) => {
 	return updateObject(state, { error: false, loading: true });
 };
 const fetchDailyUpdatesSuccess = (state, action) => {
-	return updateObject(state, { loading: false });
+	return updateObject(state, { dailyUpdates: action.payload.dailyUpdates, loading: false });
 };
 const fetchDailyUpdatesFail = (state, action) => {
 	return updateObject(state, { loading: false });

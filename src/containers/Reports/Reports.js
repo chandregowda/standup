@@ -8,18 +8,22 @@ import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 
 // import Button from '../../components/UI/Button/Button';
 // import Input from '../../components/UI/Input/Input';
+import DailyUpdate from '../../components/DailyUpdate/DailyUpdate';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
 import * as actions from '../../store/actions/index';
 
 class Reports extends Component {
-	componentDidMount() {
+	getReports = () => {
 		this.props.onDailyUpdatesFetch(
 			this.props.token,
 			this.props.userId,
-			this.state.createdAt.format('x'),
+			+this.state.createdAt.startOf('date'),
 			this.state.team
 		);
+	};
+	componentDidMount() {
+		this.getReports();
 	}
 
 	state = {
@@ -30,9 +34,15 @@ class Reports extends Component {
 
 	handleDateChange = (createdAt) => {
 		if (createdAt) {
-			this.setState(() => ({
-				createdAt
-			}));
+			this.setState(
+				() => ({
+					createdAt
+				}),
+				() => {
+					console.log('Calling Fetch after setstate is completed');
+					this.getReports();
+				}
+			);
 		}
 	};
 
@@ -49,28 +59,26 @@ class Reports extends Component {
 			dailyUpdatesList = <Spinner />;
 		} else {
 			dailyUpdatesList = this.props.dailyUpdates.map((du, index) => {
-				return <p>{index} : Daily Update</p>;
+				return <DailyUpdate data={du} key={du._id} />;
 			});
 		}
 
 		return (
 			<div className={classes.Reports}>
-				<SingleDatePicker
-					date={this.state.createdAt}
-					onDateChange={this.handleDateChange}
-					focused={this.state.calendarFocused}
-					onFocusChange={this.handleFocusChanged}
-					numberOfMonths={1}
-					isOutsideRange={() => false}
-					small
-				/>
-
 				<Auxiliary>
 					<h2> Daily Scrum Update Report</h2>
+					<SingleDatePicker
+						date={this.state.createdAt}
+						onDateChange={this.handleDateChange}
+						focused={this.state.calendarFocused}
+						onFocusChange={this.handleFocusChanged}
+						numberOfMonths={1}
+						isOutsideRange={() => false}
+						small
+					/>
 					<h4>{this.state.createdAt.format('dddd, MMMM Do YYYY')}</h4>
 				</Auxiliary>
-
-				{dailyUpdatesList}
+				<div className={classes.UpdatesContainer}>{dailyUpdatesList}</div>
 			</div>
 		);
 	}

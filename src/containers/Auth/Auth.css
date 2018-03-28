@@ -2,15 +2,27 @@
 	margin: 20px auto;
 	width: 60%;
 	text-align: center;
-	box-shadow: 0 2px 3px #ccc;
+	box-shadow: 0 2px 8px gray;
 	border: 1px solid #eee;
 	padding: 10px;
 	box-sizing: border-box;
+	background: #fff;
 }
 .ERROR {
 	color: red;
 	font-weight: bold;
 	font-size: 12px;
+}
+.Logo {
+	text-align: center;
+	padding: 5px;
+	display: flex;
+	box-sizing: border-box;
+	justify-content: space-around;
+}
+.Logo img {
+	/* width: 80%; */
+	height: auto;
 }
 @media (min-width: 600px) {
 	.Auth {

@@ -117,7 +117,7 @@ class DailyUpdates extends Component {
 					placeholder: 'These are the obstacles I have encountered...'
 				},
 				value: '',
-				label: { text: 'My obstacles/roadblocks', color: 'red' },
+				label: { text: 'What are my obstacles', color: 'red' },
 				isValid: true,
 				touched: false,
 				validation: {
@@ -183,9 +183,11 @@ class DailyUpdates extends Component {
 
 		// this.setState({ loading: true });
 		const data = {
-			dailyUpdate: formData,
-			createdAt: this.state.createdAt.format('x'),
-			userId: localStorage.getItem('userId')
+			...formData,
+			createdAt: +this.state.createdAt.startOf('date'),
+			userId: +this.props.userId,
+			displayName: this.props.displayName,
+			uniqueId: uuid()
 		};
 		this.props.onDataSubmit(data, this.props.token);
 	};
@@ -251,7 +253,8 @@ const mapStateToProps = (state) => {
 		loading: state.dailyUpdates.loading,
 		error: state.dailyUpdates.loading,
 		token: state.auth.token,
-		userId: state.auth.userId
+		userId: state.auth.userId,
+		displayName: state.auth.displayName
 	};
 };
 const mapDispatchToProps = (dispatch) => {

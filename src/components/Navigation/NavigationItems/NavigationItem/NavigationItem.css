@@ -16,7 +16,7 @@
 .NavigationItem a:hover,
 .NavigationItem a:active,
 .NavigationItem a.active {
-	color: #000;
+	color: rgb(90, 92, 93);
 }
 
 @media (min-width: 500px) {
@@ -43,6 +43,5 @@
 		/* background-color: #ccc; */
 		border-bottom: 4px solid #25c0f0;
 		color: #25c0f0;
-		font-weight: bold;
 	}
 }

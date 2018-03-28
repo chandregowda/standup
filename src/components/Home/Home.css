@@ -1,11 +1,12 @@
 .Home {
 	/* background-color: #ccc; */
-	color: #000;
+	color: rgb(90, 92, 93);
 	height: 100%;
 	text-align: center;
 }
 .Jumbotext {
 	font-size: 48px;
+	color: #2882b4;
 }
 
 .Logo {

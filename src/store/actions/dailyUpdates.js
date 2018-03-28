@@ -1,5 +1,5 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
+import axios from '../../axios-dailyUpdates';
 
 export const submitDailyUpdatesSuccess = (storedData, postData) => {
 	return {
@@ -20,9 +20,12 @@ export const submitDailyUpdatesStart = () => {
 };
 export const submitDailyUpdates = (postData, token) => {
 	return (dispatch) => {
+		// console.log('Submitting daily update with ');
+		// console.log(postData);
+
 		dispatch(submitDailyUpdatesStart());
 		axios
-			.post('http://localhost:3000/dailyUpdates?auth=' + token, postData)
+			.post('/dailyUpdate/create?auth=' + token, postData)
 			.then((response) => {
 				console.log(response.data);
 				dispatch(submitDailyUpdatesSuccess(response.data, postData));
@@ -55,11 +58,9 @@ export const fetchDailyUpdates = ({ token, userId, createdAt, team }) => {
 	return (dispatch) => {
 		dispatch(fetchDailyUpdatesStart());
 		axios
-			.get(
-				`http://localhost:3000/dailyUpdates?createdAt=${createdAt}&auth=${token}&team="${team}"&userId=${userId}`
-			)
+			.post(`/dailyUpdate/get?createdAt=${createdAt}&team="${team}"&userId=${userId}`)
 			.then((response) => {
-				console.log(response.data);
+				// console.log(response.data);
 				let fetchedOrders = [];
 				for (let key in response.data) {
 					fetchedOrders.push({ ...response.data[key], id: key });

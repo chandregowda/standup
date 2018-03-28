@@ -3,3 +3,8 @@
 	text-align: center;
 	box-sizing: border-box;
 }
+.UpdatesContainer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}

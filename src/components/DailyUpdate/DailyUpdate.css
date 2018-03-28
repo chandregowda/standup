@@ -1,3 +1,45 @@
 .DailyUpdate {
-	font-size: inherit;
+	border: 1px solid #eee;
+	box-sizing: border-box;
+	box-shadow: 1px 2px 3px #ccc;
+	text-align: left;
+	padding: 5px;
+	margin: 10px 5px;
+	/* flex: 1; */
+	min-width: 300px;
+	/* max-width: 500px; */
+	flex-basis: auto; /* default value */
+	flex-grow: 1;
+}
+.User {
+	font-weight: bold;
+	color: #3b97e0;
+	font-size: 1.5rem;
+}
+.CreatedAt {
+	color: gray;
+	font-size: 12px;
+	margin-left: 10px;
+}
+.CommentContainer {
+	margin: 10px;
+	border: 1px solid silver;
+	padding: 10px;
+}
+.CommentContainer label {
+	font-weight: inherit;
+}
+.Comment {
+	padding: 0px 15px;
+	color: #2d2d2d;
+	font-style: italic;
+}
+.Yesterday {
+	color: green;
+}
+.Today {
+	color: orange;
+}
+.Obstacle {
+	color: red;
 }

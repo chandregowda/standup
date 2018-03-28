@@ -24,7 +24,7 @@ export const authStart = () => {
 export const authSuccess = (authData) => {
 	return {
 		type: actionTypes.AUTH_SUCCESS,
-		payload: { token: authData.token, userId: authData.userId }
+		payload: { token: authData.token, userId: authData.userId, displayName: authData.displayName }
 	};
 };
 
@@ -52,6 +52,33 @@ export const checkAuthTimeout = (timeOut = 3600) => {
 
 export const auth = (email, password, isSignIn) => {
 	return (dispatch) => {
+		axios.interceptors.response.use(
+			(response) => {
+				return response;
+			},
+			function(error) {
+				console.log(error.response);
+				if (!error.response.data) {
+					console.log('No Response Data');
+					console.log(error.response);
+					error.response = { data: { error: { message: 'Internal Server Error' } } };
+				}
+				if (!error.response.status) {
+					console.log('No Response Status');
+					console.log(error.response);
+					error.response = { status: 404 };
+				}
+				error.response.data = { error: { message: `ERROR: Status ${error.response.status}` } };
+				// Do something with response error
+				if (error.response.status === 404) {
+					error.response.data.error.message = 'Authenitcation Server down';
+					dispatch(authFail(error.response.data.error));
+					// router.replace('/auth/login');
+				}
+				return Promise.reject(error);
+			}
+		);
+
 		dispatch(authStart());
 
 		// Call Server Authentication and dispatch
@@ -94,17 +121,17 @@ export const auth = (email, password, isSignIn) => {
 
 					setLocalStorage({ token, expiryDate, userId, displayName });
 
-					dispatch(authSuccess(response.data));
+					dispatch(authSuccess({ token, userId, displayName }));
 					dispatch(checkAuthTimeout(expiresIn));
 				} else {
-					console.log('Failed to login');
-					console.log(response.data.error);
+					// console.log('Failed to login');
+					// console.log(response.data.error);
 					dispatch(authFail(response.data.error));
 				}
 			})
 			.catch((e) => {
-				console.log('Authentication failed with error');
-				console.log(e.response.data);
+				console.log('Authentication failed with error', e);
+				console.log(e);
 				dispatch(authFail(e.response.data.error));
 			});
 
@@ -147,7 +174,8 @@ export const authCheckState = () => {
 				dispatch(authLogout());
 			} else {
 				const userId = localStorage.getItem('userId');
-				dispatch(authSuccess({ token: token, userId: userId }));
+				const displayName = localStorage.getItem('displayName');
+				dispatch(authSuccess({ token: token, userId: userId, displayName: displayName }));
 				const remainingTime = (expiryDate.getTime() - new Date().getTime()) / 1000;
 				// console.log('Number of seconds remaining is: ', remainingTime);
 				dispatch(checkAuthTimeout(remainingTime));

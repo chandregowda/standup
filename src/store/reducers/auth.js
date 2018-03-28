@@ -5,7 +5,8 @@ const INITIAL_STATE = {
 	error: false,
 	loading: false,
 	token: null,
-	userId: null
+	userId: null,
+	displayName: null
 };
 
 const authStart = (state, action) => {
@@ -17,7 +18,8 @@ const authSuccess = (state, action) => {
 		error: false,
 		loading: false,
 		token: action.payload.token,
-		userId: action.payload.userId
+		userId: action.payload.userId,
+		displayName: action.payload.displayName
 	});
 };
 const authFail = (state, action) => {
