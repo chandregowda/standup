@@ -186,8 +186,8 @@ class DailyUpdates extends Component {
 			...formData,
 			createdAt: +this.state.createdAt.startOf('date'),
 			userId: +this.props.userId,
-			displayName: this.props.displayName,
-			uniqueId: uuid()
+			displayName: this.props.displayName
+			// uniqueId: uuid()
 		};
 		this.props.onDataSubmit(data, this.props.token);
 	};
