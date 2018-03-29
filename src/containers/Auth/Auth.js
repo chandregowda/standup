@@ -132,13 +132,13 @@ class Auth extends Component {
 		if (this.props.loading) {
 			form = <Spinner />;
 		}
-		let errorMessage = '';
+		let errorMessage, message;
 		if (this.props.error) {
-			if (this.props.error.message === 'INVALID_CREDS') {
-				errorMessage = <p className={classes.ERROR}>Invalid Credientials, Failed to login</p>;
-			} else {
-				errorMessage = <p className={classes.ERROR}>{this.props.error.message}</p>;
+			message = 'Invalid Credientials, Failed to login';
+			if (this.props.error.message === 'ETIMEDOUT') {
+				message = 'API Server down, please inform administrator';
 			}
+			errorMessage = <p className={classes.ERROR}>{message}</p>;
 		}
 		return (
 			<div className={classes.Auth}>

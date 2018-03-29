@@ -22,35 +22,6 @@ class DailyUpdates extends Component {
 		createdAt: moment(),
 		calendarFocused: false,
 		formFields: {
-			// name: {
-			// 	elementType: 'input',
-			// 	elementConfig: {
-			// 		type: 'text',
-			// 		placeholder: 'Your Name'
-			// 	},
-			// 	value: '',
-			// 	isValid: false,
-			// 	touched: false,
-			// 	validation: {
-			// 		required: true,
-			// 		minimumLength: 3,
-			// 		maximumLength: 25
-			// 	}
-			// },
-			// email: {
-			// 	elementType: 'input',
-			// 	elementConfig: {
-			// 		type: 'email',
-			// 		placeholder: '@'
-			// 	},
-			// 	value: '',
-			// 	isValid: false,
-			// 	touched: false,
-			// 	validation: {
-			// 		minimumLength: 6,
-			// 		required: true
-			// 	}
-			// },
 			teamRoom: {
 				elementType: 'select',
 				elementConfig: {
@@ -127,11 +98,29 @@ class DailyUpdates extends Component {
 		}
 	};
 
+	getReports = () => {
+		this.props.onDailyUpdatesFetch(
+			this.props.token,
+			this.props.accountName,
+			+this.state.createdAt.startOf('date'),
+			this.state.formFields.teamRoom.value
+		);
+	};
+	componentDidMount() {
+		this.getReports();
+	}
+
 	handleDateChange = (createdAt) => {
 		if (createdAt) {
-			this.setState(() => ({
-				createdAt
-			}));
+			this.setState(
+				() => ({
+					createdAt
+				}),
+				() => {
+					console.log('Calling Fetch after setstate is completed');
+					this.getReports();
+				}
+			);
 		}
 	};
 	handleFocusChanged = ({ focused }) => {
@@ -185,7 +174,7 @@ class DailyUpdates extends Component {
 		const data = {
 			...formData,
 			createdAt: +this.state.createdAt.startOf('date'),
-			userId: +this.props.userId,
+			accountName: this.props.accountName,
 			displayName: this.props.displayName
 			// uniqueId: uuid()
 		};
@@ -227,7 +216,16 @@ class DailyUpdates extends Component {
 						/>
 					);
 				})}
-
+				{this.props.error && (
+					<div>
+						<p className={classes.Error}>{this.props.error.message}</p>
+					</div>
+				)}
+				{this.props.message && (
+					<div>
+						<p className={classes.Message}>{this.props.message}</p>
+					</div>
+				)}
 				<Button btnType="Success" disabled={!this.state.formIsValid}>
 					Submit
 				</Button>
@@ -251,15 +249,19 @@ class DailyUpdates extends Component {
 const mapStateToProps = (state) => {
 	return {
 		loading: state.dailyUpdates.loading,
-		error: state.dailyUpdates.loading,
+		error: state.dailyUpdates.error,
+		message: state.dailyUpdates.message,
+		dailyUpdates: state.dailyUpdates.dailyUpdates,
 		token: state.auth.token,
-		userId: state.auth.userId,
+		accountName: state.auth.accountName,
 		displayName: state.auth.displayName
 	};
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onDataSubmit: (postData, token) => dispatch(actions.submitDailyUpdates(postData, token))
+		onDataSubmit: (postData, token) => dispatch(actions.submitDailyUpdates(postData, token)),
+		onDailyUpdatesFetch: (token, accountName, createdAt, team) =>
+			dispatch(actions.fetchDailyUpdates({ token, accountName, createdAt, team }))
 	};
 };
 

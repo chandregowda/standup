@@ -15,12 +15,13 @@ import * as actions from '../../store/actions/index';
 
 class Reports extends Component {
 	getReports = () => {
-		this.props.onDailyUpdatesFetch(
-			this.props.token,
-			this.props.userId,
-			+this.state.createdAt.startOf('date'),
-			this.state.team
-		);
+		// this.props.onDailyUpdatesFetch(
+		// 	this.props.token,
+		// 	this.props.userId,
+		// 	+this.state.createdAt.startOf('date'),
+		// 	this.state.team
+		// );
+		this.props.onDailyUpdatesFetch(this.props.token, null, +this.state.createdAt.startOf('date'), null);
 	};
 	componentDidMount() {
 		this.getReports();

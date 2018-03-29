@@ -9,6 +9,7 @@ class DailyUpdate extends Component {
 			<div className={classes.DailyUpdate}>
 				<div>
 					<span className={classes.User}>{data.displayName}</span>
+					<span className={classes.TeamRoom}>({data.teamRoom})</span>
 					<span className={classes.CreatedAt}>
 						{moment.unix(data.createdAt / 1000).format('dddd, MMMM Do YYYY')}
 					</span>

@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 	error: false,
 	loading: false,
 	token: null,
-	userId: null,
+	accountName: null,
 	displayName: null
 };
 
@@ -18,7 +18,7 @@ const authSuccess = (state, action) => {
 		error: false,
 		loading: false,
 		token: action.payload.token,
-		userId: action.payload.userId,
+		accountName: action.payload.accountName,
 		displayName: action.payload.displayName
 	});
 };
@@ -30,7 +30,7 @@ const authFail = (state, action) => {
 };
 
 const authLogout = (state, action) => {
-	return updateObject(state, { token: null, userId: null });
+	return updateObject(state, { token: null, accountName: null });
 };
 
 /**

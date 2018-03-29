@@ -1,17 +1,17 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios'; // URL is different, so use new one
+import axios from '../../axios-dailyUpdates'; // URL is different, so use new one
 
-const setLocalStorage = ({ token, expiryDate, userId, displayName }) => {
+const setLocalStorage = ({ token, expiryDate, accountName, displayName }) => {
 	localStorage.setItem('token', token);
 	localStorage.setItem('expiryDate', expiryDate);
-	localStorage.setItem('userId', userId);
+	localStorage.setItem('accountName', accountName);
 	localStorage.setItem('displayName', displayName);
 };
 
 const clearLocalStorage = () => {
 	localStorage.removeItem('token');
 	localStorage.removeItem('expiryDate');
-	localStorage.removeItem('userId');
+	localStorage.removeItem('accountName');
 	localStorage.removeItem('displayName');
 };
 
@@ -24,7 +24,7 @@ export const authStart = () => {
 export const authSuccess = (authData) => {
 	return {
 		type: actionTypes.AUTH_SUCCESS,
-		payload: { token: authData.token, userId: authData.userId, displayName: authData.displayName }
+		payload: { token: authData.token, accountName: authData.accountName, displayName: authData.displayName }
 	};
 };
 
@@ -57,18 +57,17 @@ export const auth = (email, password, isSignIn) => {
 				return response;
 			},
 			function(error) {
-				console.log(error.response);
-				if (!error.response.data) {
-					console.log('No Response Data');
-					console.log(error.response);
-					error.response = { data: { error: { message: 'Internal Server Error' } } };
+				if (!error.response) {
+					console.log('Only error');
+					console.log(error);
+					return Promise.reject(error);
+				} else if (!error.response.data) {
+					// console.log('No Response Data');
+					// console.log(error.response);
+					error.response.data = { error: { message: `ERROR: Status ${error.response.status}` } };
+					return Promise.reject(error);
 				}
-				if (!error.response.status) {
-					console.log('No Response Status');
-					console.log(error.response);
-					error.response = { status: 404 };
-				}
-				error.response.data = { error: { message: `ERROR: Status ${error.response.status}` } };
+
 				// Do something with response error
 				if (error.response.status === 404) {
 					error.response.data.error.message = 'Authenitcation Server down';
@@ -87,11 +86,11 @@ export const auth = (email, password, isSignIn) => {
 		// setTimeout(() => {
 		// 	const token = 'RANDOM_ID_12321312312312';
 		// 	const expiresIn = 3600;
-		// 	const userId = 1476;
+		// 	const accountName = 1476;
 		// 	const expiryDate = new Date(new Date().getTime() + expiresIn * 1000);
 
-		// 	setLocalStorage({ token, expiryDate, userId });
-		// 	dispatch(authSuccess({ token, expiryDate, userId }));
+		// 	setLocalStorage({ token, expiryDate, accountName });
+		// 	dispatch(authSuccess({ token, expiryDate, accountName }));
 		// 	dispatch(checkAuthTimeout(expiresIn));
 		// }, 1000);
 
@@ -104,7 +103,7 @@ export const auth = (email, password, isSignIn) => {
 			password
 		};
 
-		let hostURL = 'http://localhost:8080/login';
+		let hostURL = '/login';
 		axios
 			.post(hostURL, authData)
 			.then((response) => {
@@ -115,13 +114,13 @@ export const auth = (email, password, isSignIn) => {
 					const expiresIn = data.expiresIn || 3600; // 1 hour
 					const expiryDate = new Date(new Date().getTime() + expiresIn * 1000);
 
-					const token = data.details.employeeID + '-' + data.details.userAccountControl;
-					const userId = data.details.employeeID;
+					const token = data.token;
+					const accountName = data.details.sAMAccountName || data.details.mail.replace(/@.*$/, '');
 					const displayName = data.details.displayName;
 
-					setLocalStorage({ token, expiryDate, userId, displayName });
+					setLocalStorage({ token, expiryDate, accountName, displayName });
 
-					dispatch(authSuccess({ token, userId, displayName }));
+					dispatch(authSuccess({ token, accountName, displayName }));
 					dispatch(checkAuthTimeout(expiresIn));
 				} else {
 					// console.log('Failed to login');
@@ -132,7 +131,9 @@ export const auth = (email, password, isSignIn) => {
 			.catch((e) => {
 				console.log('Authentication failed with error', e);
 				console.log(e);
-				dispatch(authFail(e.response.data.error));
+				let error =
+					e.response && e.response.data ? e.response.data.error : { message: 'Internal Server Error' };
+				dispatch(authFail(error));
 			});
 
 		// let URL = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=';
@@ -151,7 +152,7 @@ export const auth = (email, password, isSignIn) => {
 
 		// 		localStorage.setItem('token', response.data.idToken);
 		// 		localStorage.setItem('expiryDate', expiryDate);
-		// 		localStorage.setItem('userId', response.data.localId);
+		// 		localStorage.setItem('accountName', response.data.localId);
 		// 		dispatch(authSuccess(response.data));
 		// 		dispatch(checkAuthTimeout(response.data.expiresIn));
 		// 	})
@@ -173,9 +174,9 @@ export const authCheckState = () => {
 			if (expiryDate < new Date()) {
 				dispatch(authLogout());
 			} else {
-				const userId = localStorage.getItem('userId');
+				const accountName = localStorage.getItem('accountName');
 				const displayName = localStorage.getItem('displayName');
-				dispatch(authSuccess({ token: token, userId: userId, displayName: displayName }));
+				dispatch(authSuccess({ token: token, accountName: accountName, displayName: displayName }));
 				const remainingTime = (expiryDate.getTime() - new Date().getTime()) / 1000;
 				// console.log('Number of seconds remaining is: ', remainingTime);
 				dispatch(checkAuthTimeout(remainingTime));

@@ -20,12 +20,24 @@
 .imgContainer img {
 	height: 100%;
 }
+.Error {
+	color: #fff;
+	padding: 5px 50px;
+	background: red;
+	font-weight: bold;
+}
+.Message {
+	color: #1e1e1e;
+	padding: 5px 50px;
+	background: lightgreen;
+	font-weight: bold;
+}
 @media (max-width: 700px) {
 	.DailyUpdates {
 		display: block;
 	}
 }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
 	.imgContainer {
 		height: 30%;
 	}

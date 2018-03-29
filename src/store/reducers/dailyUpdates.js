@@ -4,7 +4,8 @@ import updateObject from '../utility';
 const INITIAL_STATE = {
 	dailyUpdates: [],
 	loading: false,
-	error: false
+	error: false,
+	message: ''
 };
 
 const fetchDailyUpdatesStart = (state, action) => {
@@ -18,13 +19,13 @@ const fetchDailyUpdatesFail = (state, action) => {
 };
 
 const submitDailyUpdatesStart = (state, action) => {
-	return updateObject(state, { error: false, loading: true });
+	return updateObject(state, { error: false, loading: true, message: '' });
 };
 const submitDailyUpdatesSuccess = (state, action) => {
-	return updateObject(state, { loading: false });
+	return updateObject(state, { loading: false, message: action.payload.message });
 };
 const submitDailyUpdatesFail = (state, action) => {
-	return updateObject(state, { loading: false });
+	return updateObject(state, { loading: false, error: action.payload.error });
 };
 
 /**

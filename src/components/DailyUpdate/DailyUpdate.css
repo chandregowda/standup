@@ -16,10 +16,16 @@
 	color: #3b97e0;
 	font-size: 1.5rem;
 }
+.TeamRoom {
+	display: inline-block;
+	color: orange;
+	font-size: 12px;
+	margin: 0 5px;
+}
 .CreatedAt {
 	color: gray;
 	font-size: 12px;
-	margin-left: 10px;
+	/* margin-left: 10px; */
 }
 .CommentContainer {
 	margin: 10px;

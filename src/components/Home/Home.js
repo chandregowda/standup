@@ -3,12 +3,18 @@ import React from 'react';
 
 import classes from './Home.css';
 import homeImage from '../../assets/images/standup-meeting.jpg';
+import kshipaniImage from '../../assets/images/kshipani.png';
 
 const home = (props) => {
 	return (
 		<div className={classes.Home}>
 			<div>
-				<p className={classes.Jumbotext}> Daily Scrum </p>
+				<section className={classes.Jumbotext}>
+					<div className={classes.KshipaniContainer}>
+						<img src={kshipaniImage} alt="khipani" className={classes.KshipaniImage} />Kshipani
+					</div>
+				</section>
+				<p className={classes.Subtitle}>Missile Tracker</p>
 			</div>
 			<img src={homeImage} alt="Home" />
 			<section>
