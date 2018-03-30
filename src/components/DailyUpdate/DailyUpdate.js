@@ -16,21 +16,21 @@ class DailyUpdate extends Component {
 				</div>
 				<section className={classes.CommentContainer}>
 					<label className={classes.Yesterday}>What I did last day</label>
-					<p className={classes.Comment}>
+					<article className={classes.Comment}>
 						<pre>{data.yesterday}</pre>
-					</p>
+					</article>
 				</section>
 				<section className={classes.CommentContainer}>
 					<label className={classes.Today}>What I will do today</label>
-					<p className={classes.Comment}>
+					<article className={classes.Comment}>
 						<pre>{data.today}</pre>
-					</p>
+					</article>
 				</section>
 				<section className={classes.CommentContainer}>
 					<label className={classes.Obstacle}>What are my obstacles</label>
-					<p className={classes.Comment}>
+					<article className={classes.Comment}>
 						<pre>{data.obstacles}</pre>
-					</p>
+					</article>
 				</section>
 			</div>
 		);

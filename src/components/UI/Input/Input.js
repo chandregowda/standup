@@ -7,6 +7,7 @@ const input = (props) => {
 	if (!props.isValid && props.shouldValidate && props.hasTouched) {
 		inputClasses.push(classes.InvalidElement);
 	}
+
 	switch (props.elementType) {
 		case 'input':
 			inputElement = (
@@ -29,9 +30,11 @@ const input = (props) => {
 			);
 			break;
 		case 'select':
+			let options = props.options || props.elementConfig.options;
+
 			inputElement = (
 				<select onChange={props.changed} className={inputClasses.join(' ')} value={props.value}>
-					{props.elementConfig.options.map((opt) => {
+					{options.map((opt) => {
 						return (
 							<option key={opt.value} value={opt.value}>
 								{opt.displayValue}

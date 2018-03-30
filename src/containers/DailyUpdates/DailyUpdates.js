@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import classes from './DailyUpdates.css';
-import standUpImage from '../../assets/images/scrum-daily-standup.jpg';
-
+import { connect } from 'react-redux';
+import axios from 'axios';
 import moment from 'moment';
 import { SingleDatePicker } from 'react-dates';
 // import { DateRangePicker } from 'react-dates';
 // import uuid from 'uuid';
 
-import { connect } from 'react-redux';
+import classes from './DailyUpdates.css';
+import standUpImage from '../../assets/images/scrum-daily-standup.jpg';
+
 import WithErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
 import * as actions from '../../store/actions/index';
-import axios from 'axios';
 
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
@@ -110,8 +110,10 @@ class DailyUpdates extends Component {
 			this.state.formFields.teamRoom.value
 		);
 	};
+
 	componentDidMount() {
 		this.getReports();
+		this.props.onTeamRoomsFetch();
 	}
 
 	handleDateChange = (createdAt) => {
@@ -121,7 +123,7 @@ class DailyUpdates extends Component {
 					createdAt
 				}),
 				() => {
-					console.log('Calling Fetch after setstate is completed');
+					// console.log('Calling Fetch after setstate is completed');
 					this.getReports();
 				}
 			);
@@ -151,6 +153,20 @@ class DailyUpdates extends Component {
 		// console.log(`isValid : ${isValid}`);
 		return isValid;
 	};
+
+	// updateTeamRooms = () => {
+	// 	const updatedFormData = { ...this.state.formFields };
+	// 	const updatedFormElement = { ...updatedFormData.teamRoom };
+	// 	const updatedFormElementConfig = { ...updatedFormElement.elementConfig };
+	// 	const options = [].concat(updatedFormElementConfig.options); // Dont work on actual state object
+	// 	options.splice(0, options.length); // Clear all options
+	// 	this.props.teamRooms.forEach((room) =>
+	// 		options.push({ value: room.teamRoom, displayValue: room.displayName, id: room._id })
+	// 	);
+	// 	// Once updated local copy, set it back to state
+	// 	updatedFormElementConfig.options = options; // Step 1
+	// 	this.setState({ formFields: updatedFormData });
+	// };
 
 	inputChangeHandler = (event, identifier) => {
 		const updatedFormData = { ...this.state.formFields };
@@ -193,6 +209,9 @@ class DailyUpdates extends Component {
 				config: this.state.formFields[key]
 			});
 		}
+		// if (this.props.teamRooms.length) {
+		// 	this.updateTeamRooms();
+		// }
 		let form = (
 			<form className={classes.Form} onSubmit={this.submitHandler}>
 				<SingleDatePicker
@@ -201,7 +220,7 @@ class DailyUpdates extends Component {
 					focused={this.state.calendarFocused}
 					onFocusChange={this.handleFocusChanged}
 					numberOfMonths={1}
-					showDefaultInputIcon={() => true}
+					showDefaultInputIcon={true}
 					small
 					isOutsideRange={() => false}
 				/>
@@ -215,6 +234,7 @@ class DailyUpdates extends Component {
 							hasTouched={elem.config.touched}
 							changed={(event) => this.inputChangeHandler(event, elem.id)}
 							elementType={elem.config.elementType}
+							options={this.props.teamRooms}
 							elementConfig={elem.config.elementConfig}
 							value={elem.config.value}
 							label={elem.config.label}
@@ -257,6 +277,7 @@ const mapStateToProps = (state) => {
 		error: state.dailyUpdates.error,
 		message: state.dailyUpdates.message,
 		dailyUpdates: state.dailyUpdates.dailyUpdates,
+		teamRooms: state.teamRooms.teamRooms,
 		token: state.auth.token,
 		accountName: state.auth.accountName,
 		displayName: state.auth.displayName
@@ -266,7 +287,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		onDataSubmit: (postData, token) => dispatch(actions.submitDailyUpdates(postData, token)),
 		onDailyUpdatesFetch: (token, accountName, createdAt, team) =>
-			dispatch(actions.fetchDailyUpdates({ token, accountName, createdAt, team }))
+			dispatch(actions.fetchDailyUpdates({ token, accountName, createdAt, team })),
+		onTeamRoomsFetch: (owner = null, id = null) => dispatch(actions.fetchTeamRooms({ owner, id }))
 	};
 };
 
