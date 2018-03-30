@@ -3,15 +3,31 @@
 	padding: 1px;
 	height: 100%;
 	box-sizing: border-box;
+	white-space: nowrap;
 	/* border-radius: 5px; */
 }
 .Logo img {
 	height: 100%;
+}
+.LogoText {
+	font-size: 1.5em;
+	color: #2882b4;
+	text-decoration: none;
+	line-height: 42px;
+	vertical-align: text-bottom;
 }
 @media (max-width: 499px) {
 	.Logo {
 		/* border-bottom: 1px solid #ccc; */
 		/* box-shadow: 0 2px 1px #ccc; */
 		text-align: center;
+	}
+	.LogoText {
+		font-size: 1em;
+	}
+}
+@media (max-width: 499px) {
+	.LogoText {
+		display: none;
 	}
 }

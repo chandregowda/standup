@@ -17,6 +17,7 @@ const sideDrawer = (props) => {
 				<div className={classes.Logo}>
 					<Logo />
 				</div>
+				<div className={classes.Jumbotext}>Kshipani</div>
 				<nav>
 					<NavigationItems isAuthenticated={props.isAuthenticated} />
 				</nav>

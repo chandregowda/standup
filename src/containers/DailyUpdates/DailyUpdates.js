@@ -41,6 +41,10 @@ class DailyUpdates extends Component {
 						{
 							value: 'prahar',
 							displayValue: 'Prahar - Team 4'
+						},
+						{
+							value: 'shaurya',
+							displayValue: 'Shaurya - Team 5'
 						}
 					]
 				},
@@ -92,7 +96,7 @@ class DailyUpdates extends Component {
 				isValid: true,
 				touched: false,
 				validation: {
-					minimumLength: 6
+					// minimumLength: 0
 				}
 			}
 		}
@@ -197,6 +201,7 @@ class DailyUpdates extends Component {
 					focused={this.state.calendarFocused}
 					onFocusChange={this.handleFocusChanged}
 					numberOfMonths={1}
+					showDefaultInputIcon={() => true}
 					small
 					isOutsideRange={() => false}
 				/>
@@ -223,10 +228,10 @@ class DailyUpdates extends Component {
 				)}
 				{this.props.message && (
 					<div>
-						<p className={classes.Message}>{this.props.message}</p>
+						<p className={classes.Message}>&#10004; {this.props.message}</p>
 					</div>
 				)}
-				<Button btnType="Success" disabled={!this.state.formIsValid}>
+				<Button btnType="Success-big" disabled={!this.state.formIsValid}>
 					Submit
 				</Button>
 			</form>

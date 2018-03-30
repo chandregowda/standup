@@ -1,4 +1,8 @@
 html {
 	box-sizing: border-box;
 	color: rgb(90, 92, 93);
+	min-width: 350px;
+}
+.MainContainer {
+	min-width: 350px;
 }

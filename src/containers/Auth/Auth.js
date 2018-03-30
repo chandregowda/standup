@@ -124,7 +124,7 @@ class Auth extends Component {
 					);
 				})}
 
-				<Button btnType="Success" disabled={!this.state.formIsValid}>
+				<Button btnType="Success-big" disabled={!this.state.formIsValid}>
 					{this.state.isSignUp ? 'Sign Up' : 'Login'}
 				</Button>
 			</form>

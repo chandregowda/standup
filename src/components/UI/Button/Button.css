@@ -21,7 +21,22 @@
 .Success {
 	color: #5c9210;
 }
-
+.Success-big {
+	color: #fff;
+	background: #32cd32;
+	width: 100%;
+	border-radius: 3px;
+	max-width: 200px;
+}
+.Success-big:disabled {
+	color: #fff;
+	background: rgba(110, 128, 110, 0.5);
+	width: 100%;
+}
+.Button:focus {
+	border: 1px solid orange;
+	box-shadow: 0px 0px 5px orange;
+}
 .Danger {
 	color: #944317;
 }

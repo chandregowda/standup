@@ -7,8 +7,8 @@
 	margin: 10px 5px;
 	/* flex: 1; */
 	min-width: 300px;
-	/* max-width: 500px; */
-	flex-basis: auto; /* default value */
+	max-width: 75%;
+	flex-basis: 0; /* default value */
 	flex-grow: 1;
 }
 .User {
@@ -39,6 +39,10 @@
 	padding: 0px 15px;
 	color: #2d2d2d;
 	font-style: italic;
+}
+.Comment pre {
+	white-space: pre-wrap;
+	font-size: 1.2em;
 }
 .Yesterday {
 	color: green;

@@ -6,5 +6,19 @@
 .UpdatesContainer {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: space-around;
+}
+.PrintShow {
+	display: none;
+}
+.PrintHide {
+	display: block;
+}
+@media only print {
+	.PrintShow {
+		display: block;
+	}
+	.PrintHide {
+		display: none;
+	}
 }

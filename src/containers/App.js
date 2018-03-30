@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
@@ -44,7 +44,7 @@ class App extends Component {
 		}
 
 		return (
-			<div>
+			<div className={classes.MainContainer}>
 				<Layout>{route}</Layout>
 			</div>
 		);
