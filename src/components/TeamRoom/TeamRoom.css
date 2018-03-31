@@ -5,9 +5,8 @@
 	text-align: left;
 	padding: 5px;
 	margin: 10px 5px;
-	/* flex: 1; */
-	min-width: 250px;
-	max-width: 300px;
+	min-width: 280px;
+	max-width: 320px;
 	flex-basis: 0;
 	flex-grow: 1;
 }
@@ -15,9 +14,10 @@
 	padding: 10px;
 	color: #2882b4;
 	font-weight: bold;
+	white-space: nowrap;
 }
 .OwnerName {
-	padding: 10px;
+	padding: 0 10px;
 	text-align: right;
 	font-style: italic;
 }
@@ -26,21 +26,19 @@
 	flex-basis: 1;
 	justify-content: space-between;
 }
+
 .Delete {
 	display: inline-block;
-	/* border: 1px solid #ccc; */
 	border-radius: 50%;
 	width: 20px;
 	padding: 2px;
 	cursor: pointer;
 	color: #ccc;
 	text-align: center;
-	line-height: 27px;
+	line-height: 16px;
 	font-size: 16px;
 }
 .Delete:hover {
 	color: orange;
-	/* border: 1px solid orange; */
-	/* box-shadow: 0 0 3px red; */
 	font-weight: bold;
 }

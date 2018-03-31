@@ -21,6 +21,9 @@ class Reports extends Component {
 	};
 	componentDidMount() {
 		this.getReports();
+		if (this.props.teamRooms.length === 0) {
+			this.props.onTeamRoomsFetch();
+		}
 	}
 
 	state = {
@@ -57,7 +60,14 @@ class Reports extends Component {
 		} else {
 			dailyUpdatesList = this.props.dailyUpdates.map((du, index) => {
 				let teamRoomDisplayName = this.props.teamRoomsMap[du.teamRoom];
-				return <DailyUpdate data={du} key={du._id} teamRoomDisplayName={teamRoomDisplayName} />;
+				return (
+					<DailyUpdate
+						data={du}
+						key={du._id}
+						accountName={this.props.accountName}
+						teamRoomDisplayName={teamRoomDisplayName}
+					/>
+				);
 			});
 		}
 
@@ -93,14 +103,16 @@ const mapStateToProps = (state) => {
 		loading: state.dailyUpdates.loading,
 		dailyUpdates: state.dailyUpdates.dailyUpdates,
 		token: state.auth.token,
-		userId: state.auth.userId,
-		teamRoomsMap: state.teamRooms.teamRoomsMap
+		teamRooms: state.teamRooms.teamRooms,
+		teamRoomsMap: state.teamRooms.teamRoomsMap,
+		accountName: state.auth.accountName
 	};
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onDailyUpdatesFetch: (token, userId, createdAt, team) =>
-			dispatch(actions.fetchDailyUpdates({ token, userId, createdAt, team }))
+		onTeamRoomsFetch: (owner = null, id = null) => dispatch(actions.fetchTeamRooms({ owner, id })),
+		onDailyUpdatesFetch: (token, accountName, createdAt, team) =>
+			dispatch(actions.fetchDailyUpdates({ token, accountName, createdAt, team }))
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Reports, axios));

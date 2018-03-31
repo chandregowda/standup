@@ -53,3 +53,23 @@
 .Obstacle {
 	color: red;
 }
+
+.Toolbar {
+	display: flex;
+	justify-content: space-between;
+}
+.Delete {
+	display: inline-block;
+	border-radius: 50%;
+	width: 20px;
+	padding: 2px;
+	cursor: pointer;
+	color: #ccc;
+	text-align: center;
+	line-height: 16px;
+	font-size: 16px;
+}
+.Delete:hover {
+	color: orange;
+	font-weight: bold;
+}

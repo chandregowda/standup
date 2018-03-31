@@ -114,3 +114,41 @@ export const fetchDailyUpdates = ({ token, accountName, createdAt, team }) => {
 			});
 	};
 };
+
+export const deleteDailyUpdateStart = () => {
+	return {
+		type: actionTypes.DELETE_DAILY_UPDATE_START
+	};
+};
+
+export const deleteDailyUpdateSuccess = (data) => {
+	return {
+		type: actionTypes.DELETE_DAILY_UPDATE_SUCCESS,
+		payload: data
+	};
+};
+
+export const deleteDailyUpdateFail = (error) => {
+	return {
+		type: actionTypes.DELETE_DAILY_UPDATE_FAIL,
+		payload: error
+	};
+};
+
+export const deleteDailyUpdate = (id) => {
+	return (dispatch) => {
+		dispatch(deleteDailyUpdateStart());
+		const token = localStorage.getItem('token');
+		const accountName = localStorage.getItem('accountName');
+		axios
+			.post(`/dailyUpdate/delete?id=${id}&accountName=${accountName}`, { token })
+			.then((response) => {
+				dispatch(deleteDailyUpdateSuccess(response.data));
+				dispatch(fetchDailyUpdates({}));
+			})
+			.catch((e) => {
+				console.log('Failed to delete team room from db', e);
+				dispatch(deleteDailyUpdateFail(e));
+			});
+	};
+};

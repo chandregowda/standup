@@ -4,10 +4,10 @@
 	color: white;
 	outline: none;
 	cursor: pointer;
-	font: inherit;
 	padding: 10px;
-	margin: 10px;
-	font-weight: bold;
+	margin: 2px;
+	/* font-weight: bold; */
+	white-space: nowrap;
 }
 
 .Button:first-of-type {

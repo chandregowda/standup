@@ -24,11 +24,11 @@ class TeamRooms extends Component {
 					placeholder: 'Enter New Team Name'
 				},
 				value: '',
-				label: { text: 'New Team Name', color: 'inherit' },
 				isValid: false,
 				touched: false,
 				validation: {
 					minimumLength: 6,
+					maximumLength: 24,
 					required: true
 				}
 			}
@@ -49,9 +49,6 @@ class TeamRooms extends Component {
 		this.setState({ formFields, formIsValid });
 	};
 
-	onAddTogglerClick = () => {
-		this.setState((prevState) => ({ toggleClicked: !prevState.toggleClicked }));
-	};
 	submitHandler = (event) => {
 		event.preventDefault();
 		const formData = {};
@@ -64,8 +61,6 @@ class TeamRooms extends Component {
 	};
 	render() {
 		let teamRoomsList = null;
-		let addForm = null;
-
 		let formElements = [];
 		for (let key in this.state.formFields) {
 			formElements.push({
@@ -75,22 +70,31 @@ class TeamRooms extends Component {
 		}
 		let form = (
 			<form className={classes.Form} onSubmit={this.submitHandler}>
-				{formElements.map((elem) => {
-					return (
-						<Input
-							key={elem.id}
-							isValid={elem.config.isValid}
-							shouldValidate={elem.config.validation}
-							hasTouched={elem.config.touched}
-							changed={(event) => this.onInputChange(event, elem.id)}
-							elementType={elem.config.elementType}
-							options={this.props.teamRooms}
-							elementConfig={elem.config.elementConfig}
-							value={elem.config.value}
-							label={elem.config.label}
-						/>
-					);
-				})}
+				<section className={classes.FormControls}>
+					<div style={{ width: '100%' }}>
+						{formElements.map((elem) => {
+							return (
+								<Input
+									key={elem.id}
+									isValid={elem.config.isValid}
+									shouldValidate={elem.config.validation}
+									hasTouched={elem.config.touched}
+									changed={(event) => this.onInputChange(event, elem.id)}
+									elementType={elem.config.elementType}
+									options={this.props.teamRooms}
+									elementConfig={elem.config.elementConfig}
+									value={elem.config.value}
+									label={elem.config.label}
+								/>
+							);
+						})}
+					</div>
+					<div>
+						<Button btnType="Success-big" disabled={!this.state.formIsValid}>
+							Add New Team
+						</Button>
+					</div>
+				</section>
 				{this.props.error && (
 					<div>
 						<p className={classes.Error}>{this.props.error.message || this.props.error.errmsg}</p>
@@ -101,9 +105,6 @@ class TeamRooms extends Component {
 						<p className={classes.Message}>&#10004; {this.props.message}</p>
 					</div>
 				)}
-				<Button btnType="Success-big" disabled={!this.state.formIsValid}>
-					Add New Team
-				</Button>
 			</form>
 		);
 
@@ -115,19 +116,10 @@ class TeamRooms extends Component {
 			});
 		}
 
-		if (this.state.toggleClicked) {
-			addForm = <div>{form}</div>;
-		}
-
 		return (
 			<div className={classes.TeamRooms}>
 				<h2 className={classes.Title}>Team Rooms</h2>
-				<div>
-					<Button btnType="Success" clicked={this.onAddTogglerClick}>
-						&#10010; Add Team
-					</Button>
-					{addForm}
-				</div>
+				{form}
 				<div className={classes.TeamRoomsContainer}>{teamRoomsList}</div>
 				<footer className={classes.Disclaimer}>* You can delete team rooms owned by you.</footer>
 			</div>

@@ -18,3 +18,15 @@
 	color: red;
 	font-size: .8em;
 }
+.AddNewContainer {
+	width: 100%;
+}
+.FormControls {
+	/* border: 1px solid #ccc; */
+	/* padding: 10px 20%; */
+	margin: 10px 2px;
+	box-sizing: border-box;
+	display: flex;
+	flex-flow: row;
+	flex: 1;
+}

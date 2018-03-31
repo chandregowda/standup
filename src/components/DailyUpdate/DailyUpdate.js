@@ -1,18 +1,40 @@
 import React, { Component } from 'react';
 import classes from './DailyUpdate.css';
 import moment from 'moment';
+import { connect } from 'react-redux';
+import withErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
+import axios from '../../axios-dailyUpdates';
+import * as actions from '../../store/actions/index';
 
 class DailyUpdate extends Component {
+	deleteDailyUpdate(id) {
+		this.props.onDeleteDailyUpdate(id);
+	}
 	render() {
 		let data = this.props.data;
+		let dateTime = null && (
+			<p className={classes.CreatedAt}>{moment.unix(data.createdAt / 1000).format('dddd, MMMM Do YYYY')}</p>
+		);
+		let actionItems = null;
+		actionItems =
+			this.props.accountName.toLowerCase() === data.accountName.toLowerCase() ? (
+				<span className={classes.Delete} onClick={() => this.deleteDailyUpdate(data._id)}>
+					&#10008;
+				</span>
+			) : (
+				<span>&nbsp;</span>
+			);
 		return (
 			<div className={classes.DailyUpdate}>
 				<div>
-					<span className={classes.User}>{data.displayName}</span>
-					<span className={classes.TeamRoom}>({this.props.teamRoomDisplayName})</span>
-					<p className={classes.CreatedAt}>
-						{moment.unix(data.createdAt / 1000).format('dddd, MMMM Do YYYY')}
-					</p>
+					<div className={classes.Toolbar}>
+						<div>
+							<span className={classes.User}>{data.displayName}</span>
+							<span className={classes.TeamRoom}>({this.props.teamRoomDisplayName})</span>
+						</div>
+						{actionItems}
+					</div>
+					{dateTime}
 				</div>
 				<section className={classes.CommentContainer}>
 					<label className={classes.Yesterday}>What I did last day</label>
@@ -37,4 +59,10 @@ class DailyUpdate extends Component {
 	}
 }
 
-export default DailyUpdate;
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onDeleteDailyUpdate: (id) => dispatch(actions.deleteDailyUpdate(id))
+	};
+};
+
+export default connect(null, mapDispatchToProps)(withErrorHandler(DailyUpdate, axios));
