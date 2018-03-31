@@ -37,7 +37,7 @@ const input = (props) => {
 					{options.map((opt) => {
 						return (
 							<option key={opt.value} value={opt.value}>
-								{opt.displayValue}
+								{opt.displayName}
 							</option>
 						);
 					})}

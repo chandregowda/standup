@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import updateObject from '../utility';
+import updateObject from '../../utility';
 
 const INITIAL_STATE = {
 	teamRooms: [],
@@ -8,6 +8,9 @@ const INITIAL_STATE = {
 	message: ''
 };
 
+const teamRoomReset = (state, action) => {
+	return updateObject(state, { error: false, loading: false, message: '' });
+};
 const fetchTeamRoomsStart = (state, action) => {
 	return updateObject(state, { error: false, loading: true });
 };
@@ -18,13 +21,14 @@ const fetchTeamRoomsFail = (state, action) => {
 	return updateObject(state, { loading: false, error: action.payload.error });
 };
 
-const submitTeamRoomsStart = (state, action) => {
+const addTeamRoomsStart = (state, action) => {
 	return updateObject(state, { error: false, loading: true, message: '' });
 };
-const submitTeamRoomsSuccess = (state, action) => {
+const addTeamRoomsSuccess = (state, action) => {
 	return updateObject(state, { loading: false, message: action.payload.message });
 };
-const submitTeamRoomsFail = (state, action) => {
+const addTeamRoomsFail = (state, action) => {
+	console.log('addTeamRoomsFail', action.payload.error);
 	return updateObject(state, { loading: false, error: action.payload.error });
 };
 
@@ -42,14 +46,17 @@ export default (state = INITIAL_STATE, action) => {
 		case actionTypes.FETCH_TEAM_ROOMS_FAIL:
 			return fetchTeamRoomsFail(state, action);
 
-		case actionTypes.SUBMIT_TEAM_ROOMS_START:
-			return submitTeamRoomsStart(state, action);
-		case actionTypes.SUBMIT_TEAM_ROOMS_SUCCESS:
-			return submitTeamRoomsSuccess(state, action);
-		case actionTypes.SUBMIT_TEAM_ROOMS_FAIL:
-			return submitTeamRoomsFail(state, action);
+		case actionTypes.ADD_TEAM_ROOMS_START:
+			return addTeamRoomsStart(state, action);
+		case actionTypes.ADD_TEAM_ROOMS_SUCCESS:
+			return addTeamRoomsSuccess(state, action);
+		case actionTypes.ADD_TEAM_ROOMS_FAIL:
+			return addTeamRoomsFail(state, action);
+
+		case actionTypes.TEAM_ROOMS_RESET:
+			return teamRoomReset(state, action);
 
 		default:
-			return state;
+			return teamRoomReset(state, action);
 	}
 };

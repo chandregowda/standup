@@ -12,12 +12,17 @@
 
 .Button:first-of-type {
 	margin-left: 0;
-	padding-left: 0;
+	/* padding-left: 0; */
 }
 .Button:disabled {
 	color: #ccc;
 	cursor: not-allowed;
 }
+.Button:focus {
+	border: 1px solid orange;
+	box-shadow: 0px 0px 1px orange;
+}
+
 .Success {
 	color: #5c9210;
 }
@@ -32,10 +37,6 @@
 	color: #fff;
 	background: rgba(110, 128, 110, 0.5);
 	width: 100%;
-}
-.Button:focus {
-	border: 1px solid orange;
-	box-shadow: 0px 0px 5px orange;
 }
 .Danger {
 	color: #944317;

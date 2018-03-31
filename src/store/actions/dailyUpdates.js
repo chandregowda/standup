@@ -104,7 +104,7 @@ export const fetchDailyUpdates = ({ token, accountName, createdAt, team }) => {
 				dispatch(fetchDailyUpdatesSuccess(fetchedOrders));
 			})
 			.catch((e) => {
-				console.log('Failed to get orders from firebase', e);
+				console.log('Failed to get daily updates from db', e);
 				dispatch(fetchDailyUpdatesFail(e));
 			});
 	};

@@ -55,7 +55,7 @@ Below steps explains how to add new TeamRoom functionalities in RedUx concept
 4. Create Reducer who's purpose is to maintain States related to teamRoom and updating the State values based on ACTION dispatched from action creators.
 In fine store/reducers/teamRooms.js add below content:
         import * as actionTypes from '../actions/actionTypes';
-        import updateObject from '../utility';
+        import updateObject from '../../utility';
 
         const INITIAL_STATE = {
           teamRooms: [],

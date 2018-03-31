@@ -15,6 +15,7 @@ import * as actions from '../../store/actions/index';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import { inputChangeHandler } from '../../utility';
 
 class DailyUpdates extends Component {
 	state = {
@@ -26,26 +27,26 @@ class DailyUpdates extends Component {
 				elementType: 'select',
 				elementConfig: {
 					options: [
-						{
-							value: 'agni',
-							displayValue: 'Agni - Team 1'
-						},
-						{
-							value: 'brahmos',
-							displayValue: 'Brahmos - Team 2'
-						},
-						{
-							value: 'prithvi',
-							displayValue: 'Prithvi - Team 3'
-						},
-						{
-							value: 'prahar',
-							displayValue: 'Prahar - Team 4'
-						},
-						{
-							value: 'shaurya',
-							displayValue: 'Shaurya - Team 5'
-						}
+						// {
+						// 	value: 'agni',
+						// 	displayName: 'Agni - Team 1'
+						// },
+						// {
+						// 	value: 'brahmos',
+						// 	displayName: 'Brahmos - Team 2'
+						// },
+						// {
+						// 	value: 'prithvi',
+						// 	displayName: 'Prithvi - Team 3'
+						// },
+						// {
+						// 	value: 'prahar',
+						// 	displayName: 'Prahar - Team 4'
+						// },
+						// {
+						// 	value: 'shaurya',
+						// 	displayName: 'Shaurya - Team 5'
+						// }
 					]
 				},
 				value: 'agni',
@@ -112,8 +113,12 @@ class DailyUpdates extends Component {
 	};
 
 	componentDidMount() {
-		this.getReports();
-		this.props.onTeamRoomsFetch();
+		if (this.props.dailyUpdates.length === 0) {
+			this.getReports();
+		}
+		if (this.props.teamRooms.length === 0) {
+			this.props.onTeamRoomsFetch();
+		}
 	}
 
 	handleDateChange = (createdAt) => {
@@ -135,52 +140,13 @@ class DailyUpdates extends Component {
 		}));
 	};
 
-	validateFormFields = (value, rules) => {
-		let isValid = true;
-		if (!rules) {
-			return isValid;
-		}
-		value = value.trim();
-		if (rules.required) {
-			isValid = value !== '';
-		}
-		if (isValid && rules.minimumLength) {
-			isValid = value.length >= rules.minimumLength;
-		}
-		if (isValid && rules.maximumLength) {
-			isValid = value.length <= rules.maximumLength;
-		}
-		// console.log(`isValid : ${isValid}`);
-		return isValid;
-	};
-
-	// updateTeamRooms = () => {
-	// 	const updatedFormData = { ...this.state.formFields };
-	// 	const updatedFormElement = { ...updatedFormData.teamRoom };
-	// 	const updatedFormElementConfig = { ...updatedFormElement.elementConfig };
-	// 	const options = [].concat(updatedFormElementConfig.options); // Dont work on actual state object
-	// 	options.splice(0, options.length); // Clear all options
-	// 	this.props.teamRooms.forEach((room) =>
-	// 		options.push({ value: room.teamRoom, displayValue: room.displayName, id: room._id })
-	// 	);
-	// 	// Once updated local copy, set it back to state
-	// 	updatedFormElementConfig.options = options; // Step 1
-	// 	this.setState({ formFields: updatedFormData });
-	// };
-
-	inputChangeHandler = (event, identifier) => {
-		const updatedFormData = { ...this.state.formFields };
-		const updatedFormElement = { ...updatedFormData[identifier] };
-		updatedFormElement.value = event.target.value;
-		updatedFormElement.isValid = this.validateFormFields(updatedFormElement.value, updatedFormElement.validation);
-		updatedFormElement.touched = true;
-		updatedFormData[identifier] = updatedFormElement;
-		// console.log(updatedFormElement);
-		let formIsValid = true;
-		for (let inputIdentifer in updatedFormData) {
-			formIsValid = updatedFormData[inputIdentifer].isValid && formIsValid;
-		}
-		this.setState({ formFields: updatedFormData, formIsValid: formIsValid });
+	onInputChange = (event, identifier) => {
+		let { formFields, formIsValid } = inputChangeHandler({
+			state: this.state,
+			value: event.target.value,
+			identifier
+		});
+		this.setState({ formFields, formIsValid });
 	};
 
 	submitHandler = (event) => {
@@ -209,9 +175,7 @@ class DailyUpdates extends Component {
 				config: this.state.formFields[key]
 			});
 		}
-		// if (this.props.teamRooms.length) {
-		// 	this.updateTeamRooms();
-		// }
+
 		let form = (
 			<form className={classes.Form} onSubmit={this.submitHandler}>
 				<SingleDatePicker
@@ -232,7 +196,7 @@ class DailyUpdates extends Component {
 							isValid={elem.config.isValid}
 							shouldValidate={elem.config.validation}
 							hasTouched={elem.config.touched}
-							changed={(event) => this.inputChangeHandler(event, elem.id)}
+							changed={(event) => this.onInputChange(event, elem.id)}
 							elementType={elem.config.elementType}
 							options={this.props.teamRooms}
 							elementConfig={elem.config.elementConfig}

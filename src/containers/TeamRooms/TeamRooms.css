@@ -1,0 +1,20 @@
+.TeamRooms {
+	color: #a0a0a0;
+}
+.TeamRoomsContainer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+.Disclaimer {
+	margin-top: 20px;
+	font: .9em;
+	color: #cecece;
+}
+.Title {
+	text-align: center;
+}
+.Error {
+	color: red;
+	font-size: .8em;
+}
