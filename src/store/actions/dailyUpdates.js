@@ -2,6 +2,11 @@ import * as actionTypes from './actionTypes';
 import axios from '../../axios-dailyUpdates';
 import moment from 'moment';
 
+export const dailyUpdatesReset = () => {
+	return {
+		type: actionTypes.DAILY_UPDATES_RESET
+	};
+};
 export const submitDailyUpdatesSuccess = (storedData, postData) => {
 	return {
 		type: actionTypes.SUBMIT_DAILY_UPDATES_SUCCESS,

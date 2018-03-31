@@ -56,7 +56,8 @@ class Reports extends Component {
 			dailyUpdatesList = <Spinner />;
 		} else {
 			dailyUpdatesList = this.props.dailyUpdates.map((du, index) => {
-				return <DailyUpdate data={du} key={du._id} />;
+				let teamRoomDisplayName = this.props.teamRoomsMap[du.teamRoom];
+				return <DailyUpdate data={du} key={du._id} teamRoomDisplayName={teamRoomDisplayName} />;
 			});
 		}
 
@@ -92,7 +93,8 @@ const mapStateToProps = (state) => {
 		loading: state.dailyUpdates.loading,
 		dailyUpdates: state.dailyUpdates.dailyUpdates,
 		token: state.auth.token,
-		userId: state.auth.userId
+		userId: state.auth.userId,
+		teamRoomsMap: state.teamRooms.teamRoomsMap
 	};
 };
 const mapDispatchToProps = (dispatch) => {

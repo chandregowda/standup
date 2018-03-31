@@ -8,6 +8,10 @@ const INITIAL_STATE = {
 	message: ''
 };
 
+const dailyUpdatesReset = (state, action) => {
+	return updateObject(state, { error: false, loading: false, message: '' });
+};
+
 const fetchDailyUpdatesStart = (state, action) => {
 	return updateObject(state, { error: false, loading: true });
 };
@@ -35,6 +39,8 @@ const submitDailyUpdatesFail = (state, action) => {
 */
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case actionTypes.DAILY_UPDATES_RESET:
+			return dailyUpdatesReset(state, action);
 		case actionTypes.FETCH_DAILY_UPDATES_START:
 			return fetchDailyUpdatesStart(state, action);
 		case actionTypes.FETCH_DAILY_UPDATES_SUCCESS:

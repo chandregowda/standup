@@ -49,10 +49,12 @@ class DailyUpdates extends Component {
 						// }
 					]
 				},
-				value: 'agni',
+				value: '',
 				label: { text: "I'm part of Team", color: 'blue' },
-				isValid: true,
-				validation: {}
+				isValid: false,
+				validation: {
+					required: true
+				}
 			},
 			yesterday: {
 				elementType: 'textarea',
@@ -119,6 +121,7 @@ class DailyUpdates extends Component {
 		if (this.props.teamRooms.length === 0) {
 			this.props.onTeamRoomsFetch();
 		}
+		this.props.onDailyUpdatesReset();
 	}
 
 	handleDateChange = (createdAt) => {
@@ -176,6 +179,8 @@ class DailyUpdates extends Component {
 			});
 		}
 
+		let selectOptions = [ { value: '', displayName: 'Select Team Room', _id: '0' } ].concat(this.props.teamRooms);
+
 		let form = (
 			<form className={classes.Form} onSubmit={this.submitHandler}>
 				<SingleDatePicker
@@ -198,7 +203,7 @@ class DailyUpdates extends Component {
 							hasTouched={elem.config.touched}
 							changed={(event) => this.onInputChange(event, elem.id)}
 							elementType={elem.config.elementType}
-							options={this.props.teamRooms}
+							options={selectOptions}
 							elementConfig={elem.config.elementConfig}
 							value={elem.config.value}
 							label={elem.config.label}
@@ -252,7 +257,8 @@ const mapDispatchToProps = (dispatch) => {
 		onDataSubmit: (postData, token) => dispatch(actions.submitDailyUpdates(postData, token)),
 		onDailyUpdatesFetch: (token, accountName, createdAt, team) =>
 			dispatch(actions.fetchDailyUpdates({ token, accountName, createdAt, team })),
-		onTeamRoomsFetch: (owner = null, id = null) => dispatch(actions.fetchTeamRooms({ owner, id }))
+		onTeamRoomsFetch: (owner = null, id = null) => dispatch(actions.fetchTeamRooms({ owner, id })),
+		onDailyUpdatesReset: () => dispatch(actions.dailyUpdatesReset())
 	};
 };
 

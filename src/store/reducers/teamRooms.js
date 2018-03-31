@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import updateObject from '../../utility';
 
 const INITIAL_STATE = {
+	teamRoomsMap: {},
 	teamRooms: [],
 	loading: false,
 	error: false,
@@ -15,7 +16,11 @@ const fetchTeamRoomsStart = (state, action) => {
 	return updateObject(state, { error: false, loading: true });
 };
 const fetchTeamRoomsSuccess = (state, action) => {
-	return updateObject(state, { teamRooms: action.payload.teamRooms, loading: false });
+	return updateObject(state, {
+		teamRooms: action.payload.teamRooms,
+		teamRoomsMap: action.payload.teamRoomsMap,
+		loading: false
+	});
 };
 const fetchTeamRoomsFail = (state, action) => {
 	return updateObject(state, { loading: false, error: action.payload.error });

@@ -12,9 +12,13 @@ export const fetchTeamRoomsStart = () => {
 	};
 };
 export const fetchTeamRoomsSuccess = (teamRooms) => {
+	let teamRoomsMap = {};
+	teamRooms.forEach((tr) => {
+		teamRoomsMap[tr.value] = tr.displayName;
+	});
 	return {
 		type: actionTypes.FETCH_TEAM_ROOMS_SUCCESS,
-		payload: { teamRooms }
+		payload: { teamRooms, teamRoomsMap }
 	};
 };
 export const fetchTeamRoomsFail = (error) => {
