@@ -55,7 +55,7 @@ export const submitDailyUpdates = (postData, token) => {
 						: e.data && e.data.errmsg && e.data.errmsg.indexOf('E11000 duplicate key') !== -1
 							? `You have already provided updates for '${moment
 									.unix(postData.createdAt / 1000)
-									.format('MMMM Do YYYY')}' day against team: ${postData.teamRoom}`
+									.format('MMMM Do YYYY')}' against current team !`
 							: e.data.errmsg || 'Some error during saving';
 				dispatch(submitDailyUpdatesFail(message));
 			});
