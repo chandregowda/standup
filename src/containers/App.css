@@ -2,6 +2,7 @@ html {
 	box-sizing: border-box;
 	color: rgb(90, 92, 93);
 	min-width: 350px;
+	color: #a0a0a0;
 }
 .MainContainer {
 	min-width: 350px;
