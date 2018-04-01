@@ -14,6 +14,8 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
 import * as actions from '../../store/actions/index';
 
+import noDataImage from '../../assets/images/nodata.jpg';
+
 class Reports extends Component {
 	getReports = () => {
 		this.props.onDailyUpdatesFetch(this.props.token, null, +this.state.createdAt.startOf('date'), null);
@@ -39,7 +41,7 @@ class Reports extends Component {
 					createdAt
 				}),
 				() => {
-					console.log('Calling Fetch after setstate is completed');
+					// console.log('Calling Fetch after setstate is completed');
 					this.getReports();
 				}
 			);
@@ -74,18 +76,30 @@ class Reports extends Component {
 			dailyUpdatesList = <Spinner />;
 		} else {
 			let itemList = this.state.selectedTeam ? filteredDailyUpdates : this.props.dailyUpdates;
-
-			dailyUpdatesList = itemList.map((du, index) => {
-				let teamRoomDisplayName = this.props.teamRoomsMap[du.teamRoom];
-				return (
-					<DailyUpdate
-						data={du}
-						key={du._id}
-						accountName={this.props.accountName}
-						teamRoomDisplayName={teamRoomDisplayName}
-					/>
+			if (itemList.length === 0) {
+				dailyUpdatesList = (
+					<Auxiliary>
+						<div className={classes.NoData}>
+							<img src={noDataImage} alt="No Data" />
+							<p>Consider changing the filters applied !</p>
+						</div>
+					</Auxiliary>
 				);
-			});
+			} else {
+				dailyUpdatesList = itemList.map((du, index) => {
+					let teamRoomDisplayName = this.props.teamRoomsMap[du.teamRoom];
+					return (
+						<Auxiliary key={du._id}>
+							<DailyUpdate
+								data={du}
+								accountName={this.props.accountName}
+								teamRoomDisplayName={teamRoomDisplayName}
+							/>
+							<div className={classes.pagebreak}> </div>
+						</Auxiliary>
+					);
+				});
+			}
 		}
 
 		let selectOptions = [ { value: '', displayName: 'All Team Room Updates', _id: '0' } ].concat(

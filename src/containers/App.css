@@ -2,8 +2,13 @@ html {
 	box-sizing: border-box;
 	color: rgb(90, 92, 93);
 	min-width: 350px;
-	color: #a0a0a0;
+	color: #757575;
 }
+
+/* pre,
+blockquote {
+	page-break-inside: avoid;
+} */
 
 /* SCROLL BAR CHANGE */
 /* width */
@@ -19,13 +24,13 @@ html {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: rgb(161, 231, 248);
+	background: #e4e4e4;
 	border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: rgb(0, 204, 255);
+	background: #cdcdcd;
 }
 
 /* END of scroll */

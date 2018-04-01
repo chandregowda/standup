@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-	baseURL: 'http://localhost:3100'
-	// baseURL: 'https://rti.corp.yodlee.com'
+	// baseURL: 'http://localhost:3100'
+	baseURL: 'https://rti.corp.yodlee.com'
 });
 
 axios.interceptors.response.use(

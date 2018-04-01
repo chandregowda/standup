@@ -14,6 +14,20 @@
 .PrintHide {
 	display: block;
 }
+
+.FilterContainer {
+	display: flex;
+	justify-content: center;
+}
+.NoData {
+	display: flex;
+	flex-direction: column;
+}
+
+.pagebreak {
+	display: none;
+}
+
 @media only print {
 	.PrintShow {
 		display: block;
@@ -21,8 +35,13 @@
 	.PrintHide {
 		display: none;
 	}
-}
-.FilterContainer {
-	display: flex;
-	justify-content: center;
+	.UpdatesContainer {
+		display: block;
+	}
+	.pagebreak {
+		display: block;
+		page-break-after: always;
+		page-break-inside: avoid;
+		break-before: always;
+	}
 }
