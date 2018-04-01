@@ -7,9 +7,8 @@ import axios from 'axios';
 import classes from './Reports.css';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import MainTitle from '../../components/MainTitle/MainTitle';
+import Input from '../../components/UI/Input/Input';
 
-// import Button from '../../components/UI/Button/Button';
-// import Input from '../../components/UI/Input/Input';
 import DailyUpdate from '../../components/DailyUpdate/DailyUpdate';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
@@ -27,7 +26,8 @@ class Reports extends Component {
 	}
 
 	state = {
-		team: 'agni',
+		team: '',
+		selectedTeam: '',
 		createdAt: moment(),
 		calendarFocused: false
 	};
@@ -52,13 +52,30 @@ class Reports extends Component {
 		}));
 	};
 
+	filterDailyUpdates = () => {
+		let filteredDailyUpdates = this.props.dailyUpdates.filter((item) => {
+			return !this.state.selectedTeam || item.teamRoom === this.state.selectedTeam;
+		});
+		return filteredDailyUpdates;
+	};
+
+	onInputChange = (event, identifier) => {
+		let selectedTeam = event.target.value;
+		this.setState(() => ({
+			selectedTeam: selectedTeam
+		}));
+	};
+
 	render() {
 		let dailyUpdatesList = null;
+		let filteredDailyUpdates = this.filterDailyUpdates();
 
 		if (this.props.loading) {
 			dailyUpdatesList = <Spinner />;
 		} else {
-			dailyUpdatesList = this.props.dailyUpdates.map((du, index) => {
+			let itemList = this.state.selectedTeam ? filteredDailyUpdates : this.props.dailyUpdates;
+
+			dailyUpdatesList = itemList.map((du, index) => {
 				let teamRoomDisplayName = this.props.teamRoomsMap[du.teamRoom];
 				return (
 					<DailyUpdate
@@ -71,6 +88,19 @@ class Reports extends Component {
 			});
 		}
 
+		let selectOptions = [ { value: '', displayName: 'All Team Room Updates', _id: '0' } ].concat(
+			this.props.teamRooms
+		);
+		let selectElement = (
+			<Input
+				changed={(event) => this.onInputChange(event)}
+				elementType="select"
+				options={selectOptions}
+				elementConfig={{ options: [] }}
+				value={this.state.selectedTeam}
+			/>
+		);
+
 		return (
 			<div className={classes.Reports}>
 				<Auxiliary>
@@ -79,16 +109,19 @@ class Reports extends Component {
 					</div>
 					<h2> Daily Scrum Update Report</h2>
 					<div className={classes.PrintHide}>
-						<SingleDatePicker
-							date={this.state.createdAt}
-							onDateChange={this.handleDateChange}
-							focused={this.state.calendarFocused}
-							onFocusChange={this.handleFocusChanged}
-							numberOfMonths={1}
-							showDefaultInputIcon={true}
-							isOutsideRange={() => false}
-							small
-						/>
+						<div className={classes.FilterContainer}>
+							<SingleDatePicker
+								date={this.state.createdAt}
+								onDateChange={this.handleDateChange}
+								focused={this.state.calendarFocused}
+								onFocusChange={this.handleFocusChanged}
+								numberOfMonths={1}
+								showDefaultInputIcon={true}
+								isOutsideRange={() => false}
+								small
+							/>
+							<div>{selectElement}</div>
+						</div>
 					</div>
 					<h4>{this.state.createdAt.format('dddd, MMMM Do YYYY')}</h4>
 				</Auxiliary>

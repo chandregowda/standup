@@ -31,7 +31,9 @@ const submitDailyUpdatesSuccess = (state, action) => {
 const submitDailyUpdatesFail = (state, action) => {
 	return updateObject(state, { loading: false, error: action.payload.error });
 };
-
+const deleteDailyUpdatesSuccess = (state, action) => {
+	return updateObject(state, { loading: false });
+};
 /**
 * @param {Object} state - Default application state
 * @param {Object} action - Action from action creator
@@ -53,6 +55,13 @@ export default (state = INITIAL_STATE, action) => {
 		case actionTypes.SUBMIT_DAILY_UPDATES_SUCCESS:
 			return submitDailyUpdatesSuccess(state, action);
 		case actionTypes.SUBMIT_DAILY_UPDATES_FAIL:
+			return submitDailyUpdatesFail(state, action);
+
+		case actionTypes.DELETE_DAILY_UPDATE_START:
+			return submitDailyUpdatesStart(state, action);
+		case actionTypes.DELETE_DAILY_UPDATE_SUCCESS:
+			return deleteDailyUpdatesSuccess(state, action);
+		case actionTypes.DELETE_DAILY_UPDATE_FAIL:
 			return submitDailyUpdatesFail(state, action);
 
 		default:

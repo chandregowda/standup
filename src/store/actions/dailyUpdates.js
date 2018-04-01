@@ -135,7 +135,11 @@ export const deleteDailyUpdateFail = (error) => {
 	};
 };
 
-export const deleteDailyUpdate = (id) => {
+export const deleteDailyUpdate = ({
+	id,
+	createdAt = +moment().startOf('date'),
+	accountName = localStorage.getItem('accountName')
+}) => {
 	return (dispatch) => {
 		dispatch(deleteDailyUpdateStart());
 		const token = localStorage.getItem('token');
@@ -144,7 +148,7 @@ export const deleteDailyUpdate = (id) => {
 			.post(`/dailyUpdate/delete?id=${id}&accountName=${accountName}`, { token })
 			.then((response) => {
 				dispatch(deleteDailyUpdateSuccess(response.data));
-				dispatch(fetchDailyUpdates({}));
+				dispatch(fetchDailyUpdates({ id, createdAt, accountName: null })); // dont want to filter by user at this moment, so passing null
 			})
 			.catch((e) => {
 				console.log('Failed to delete team room from db', e);

@@ -7,18 +7,23 @@ import axios from '../../axios-dailyUpdates';
 import * as actions from '../../store/actions/index';
 
 class DailyUpdate extends Component {
-	deleteDailyUpdate(id) {
-		this.props.onDeleteDailyUpdate(id);
-	}
 	render() {
 		let data = this.props.data;
-		let dateTime = null && (
+		let dateTime = true && (
 			<p className={classes.CreatedAt}>{moment.unix(data.createdAt / 1000).format('dddd, MMMM Do YYYY')}</p>
 		);
 		let actionItems = null;
 		actionItems =
 			this.props.accountName.toLowerCase() === data.accountName.toLowerCase() ? (
-				<span className={classes.Delete} onClick={() => this.deleteDailyUpdate(data._id)}>
+				<span
+					className={classes.Delete}
+					onClick={() =>
+						this.props.onDeleteDailyUpdate({
+							id: data._id,
+							createdAt: data.createdAt,
+							accountName: data.accountName
+						})}
+				>
 					&#10008;
 				</span>
 			) : (
@@ -61,7 +66,8 @@ class DailyUpdate extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onDeleteDailyUpdate: (id) => dispatch(actions.deleteDailyUpdate(id))
+		onDeleteDailyUpdate: ({ id, createdAt, accountName }) =>
+			dispatch(actions.deleteDailyUpdate({ id, createdAt, accountName }))
 	};
 };
 
