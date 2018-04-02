@@ -30,6 +30,8 @@ class Reports extends Component {
 	state = {
 		team: '',
 		selectedTeam: '',
+		nameFilter: '',
+		showOnlyMyUpdates: false,
 		createdAt: moment(),
 		calendarFocused: false
 	};
@@ -56,15 +58,42 @@ class Reports extends Component {
 
 	filterDailyUpdates = () => {
 		let filteredDailyUpdates = this.props.dailyUpdates.filter((item) => {
-			return !this.state.selectedTeam || item.teamRoom === this.state.selectedTeam;
+			let myUpdates = true;
+			if (this.state.showOnlyMyUpdates) {
+				myUpdates = item.accountName === this.props.accountName;
+			}
+			let nameFilter = true;
+
+			if (this.state.nameFilter) {
+				nameFilter =
+					item.accountName.toLowerCase().includes(this.state.nameFilter.toLowerCase()) ||
+					item.displayName.toLowerCase().includes(this.state.nameFilter.toLowerCase());
+			}
+
+			return myUpdates && nameFilter && (!this.state.selectedTeam || item.teamRoom === this.state.selectedTeam);
 		});
+		// console.log(filteredDailyUpdates);
 		return filteredDailyUpdates;
 	};
 
-	onInputChange = (event, identifier) => {
+	onSelectChange = (event, identifier) => {
 		let selectedTeam = event.target.value;
 		this.setState(() => ({
 			selectedTeam: selectedTeam
+		}));
+	};
+
+	onInputChange = (event, identifier) => {
+		let nameFilter = event.target.value.trim();
+		this.setState(() => ({
+			nameFilter: nameFilter
+		}));
+	};
+
+	handleShowMyUpdates = () => {
+		this.setState((prevState) => ({
+			showOnlyMyUpdates: !prevState.showOnlyMyUpdates,
+			nameFilter: ''
 		}));
 	};
 
@@ -75,7 +104,10 @@ class Reports extends Component {
 		if (this.props.loading) {
 			dailyUpdatesList = <Spinner />;
 		} else {
-			let itemList = this.state.selectedTeam ? filteredDailyUpdates : this.props.dailyUpdates;
+			let itemList =
+				this.state.selectedTeam || this.state.showOnlyMyUpdates || this.state.nameFilter
+					? filteredDailyUpdates
+					: this.props.dailyUpdates;
 			if (itemList.length === 0) {
 				dailyUpdatesList = (
 					<Auxiliary>
@@ -107,7 +139,7 @@ class Reports extends Component {
 		);
 		let selectElement = (
 			<Input
-				changed={(event) => this.onInputChange(event)}
+				changed={(event) => this.onSelectChange(event)}
 				elementType="select"
 				options={selectOptions}
 				elementConfig={{ options: [] }}
@@ -135,6 +167,24 @@ class Reports extends Component {
 								small
 							/>
 							<div>{selectElement}</div>
+							<div>
+								<Input
+									changed={(event) => this.onInputChange(event)}
+									elementType="text"
+									options={null}
+									elementConfig={{
+										type: 'text',
+										placeholder: 'Filter by name',
+										readOnly: this.state.showOnlyMyUpdates
+									}}
+									value={this.state.nameFilter}
+								/>
+							</div>
+							<div className={classes.CheckboxContainer}>
+								<label>
+									<input type="checkbox" onChange={this.handleShowMyUpdates} /> Show only my updates
+								</label>
+							</div>
 						</div>
 					</div>
 					<h4>{this.state.createdAt.format('dddd, MMMM Do YYYY')}</h4>

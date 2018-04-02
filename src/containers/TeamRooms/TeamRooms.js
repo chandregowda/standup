@@ -54,7 +54,10 @@ class TeamRooms extends Component {
 		const formData = {};
 		for (let formElementIdentifier in this.state.formFields) {
 			formData[formElementIdentifier] = this.state.formFields[formElementIdentifier].value;
-			formData['value'] = this.state.formFields[formElementIdentifier].value.replace(/\s/g, '_').toLowerCase(); // Space to _
+			formData['value'] = this.state.formFields[formElementIdentifier].value
+				.replace(/\s/g, '_')
+				.toLowerCase()
+				.replace(/&/, ''); // Space to _ and remove & in team value
 		}
 		const data = { ...formData };
 		this.props.onTeamRoomAdd(data);

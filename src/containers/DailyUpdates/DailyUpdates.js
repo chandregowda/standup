@@ -68,7 +68,7 @@ class DailyUpdates extends Component {
 				isValid: false,
 				touched: false,
 				validation: {
-					minimumLength: 6,
+					minimumLength: 3,
 					required: true
 				}
 			},
@@ -80,11 +80,11 @@ class DailyUpdates extends Component {
 					placeholder: 'This is what I plan to do today...'
 				},
 				value: '',
-				label: { text: 'What I will do today', color: 'orange' },
+				label: { text: 'What I will do on ' + moment().format('dddd, MMMM Do YYYY'), color: 'orange' },
 				isValid: false,
 				touched: false,
 				validation: {
-					minimumLength: 6,
+					minimumLength: 3,
 					required: true
 				}
 			},

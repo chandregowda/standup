@@ -27,6 +27,9 @@
 .pagebreak {
 	display: none;
 }
+.CheckboxContainer {
+	padding-top: 10px;
+}
 
 @media only print {
 	.PrintShow {
