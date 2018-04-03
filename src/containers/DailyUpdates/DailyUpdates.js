@@ -80,7 +80,7 @@ class DailyUpdates extends Component {
 					placeholder: 'This is what I plan to do today...'
 				},
 				value: '',
-				label: { text: 'What I will do on ' + moment().format('dddd, MMMM Do YYYY'), color: 'orange' },
+				label: { text: 'What I will do today', color: 'orange' },
 				isValid: false,
 				touched: false,
 				validation: {

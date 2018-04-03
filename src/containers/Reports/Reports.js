@@ -1,8 +1,9 @@
 import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SingleDatePicker } from 'react-dates';
+import { DateRangePicker } from 'react-dates';
 import axios from 'axios';
+import uuid from 'uuid';
 
 import classes from './Reports.css';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
@@ -17,8 +18,28 @@ import * as actions from '../../store/actions/index';
 import noDataImage from '../../assets/images/nodata.jpg';
 
 class Reports extends Component {
+	state = {
+		team: '',
+		selectedTeam: '',
+		nameFilter: '',
+		showOnlyMyUpdates: false,
+		createdAt: moment(),
+		calendarFocused: null,
+		startDate: moment().startOf('date'),
+		endDate: moment().endOf('date')
+	};
+
 	getReports = () => {
-		this.props.onDailyUpdatesFetch(this.props.token, null, +this.state.createdAt.startOf('date'), null);
+		if (this.state.startDate && this.state.endDate) {
+			this.props.onDailyUpdatesFetch({
+				token: this.props.token,
+				accountName: null,
+				createdAt: +this.state.createdAt.startOf('date'),
+				team: null,
+				startDate: this.state.startDate ? +this.state.startDate.startOf('date') : null,
+				endDate: this.state.endDate ? +this.state.endDate.endOf('date') : null
+			});
+		}
 	};
 	componentDidMount() {
 		this.getReports();
@@ -27,32 +48,24 @@ class Reports extends Component {
 		}
 	}
 
-	state = {
-		team: '',
-		selectedTeam: '',
-		nameFilter: '',
-		showOnlyMyUpdates: false,
-		createdAt: moment(),
-		calendarFocused: false
+	handleDateChange = ({ startDate, endDate }) => {
+		// if (startDate && endDate) {
+		this.setState(
+			() => ({
+				startDate,
+				endDate
+			}),
+			() => {
+				// console.log('Calling Fetch after setstate is completed');
+				this.getReports();
+			}
+		);
+		// }
 	};
 
-	handleDateChange = (createdAt) => {
-		if (createdAt) {
-			this.setState(
-				() => ({
-					createdAt
-				}),
-				() => {
-					// console.log('Calling Fetch after setstate is completed');
-					this.getReports();
-				}
-			);
-		}
-	};
-
-	handleFocusChanged = ({ focused }) => {
+	handleFocusChanged = (calendarFocused) => {
 		this.setState(() => ({
-			calendarFocused: focused
+			calendarFocused
 		}));
 	};
 
@@ -126,6 +139,8 @@ class Reports extends Component {
 								data={du}
 								accountName={this.props.accountName}
 								teamRoomDisplayName={teamRoomDisplayName}
+								startDate={this.state.startDate}
+								endDate={this.state.endDate}
 							/>
 							<div className={classes.pagebreak}> </div>
 						</Auxiliary>
@@ -156,13 +171,17 @@ class Reports extends Component {
 					<h2> Daily Scrum Update Report</h2>
 					<div className={classes.PrintHide}>
 						<div className={classes.FilterContainer}>
-							<SingleDatePicker
-								date={this.state.createdAt}
-								onDateChange={this.handleDateChange}
-								focused={this.state.calendarFocused}
+							<DateRangePicker
+								startDate={this.state.startDate}
+								startDateId={uuid()} // PropTypes.string.isRequired,
+								endDate={this.state.endDate}
+								endDateId={uuid()} // PropTypes.string.isRequired
+								onDatesChange={this.handleDateChange}
+								focusedInput={this.state.calendarFocused}
 								onFocusChange={this.handleFocusChanged}
-								numberOfMonths={1}
 								showDefaultInputIcon={true}
+								showClearDates={false}
+								numberOfMonths={1}
 								isOutsideRange={() => false}
 								small
 							/>
@@ -187,7 +206,6 @@ class Reports extends Component {
 							</div>
 						</div>
 					</div>
-					<h4>{this.state.createdAt.format('dddd, MMMM Do YYYY')}</h4>
 				</Auxiliary>
 				<div className={classes.UpdatesContainer}>{dailyUpdatesList}</div>
 			</div>
@@ -208,8 +226,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onTeamRoomsFetch: (owner = null, id = null) => dispatch(actions.fetchTeamRooms({ owner, id })),
-		onDailyUpdatesFetch: (token, accountName, createdAt, team) =>
-			dispatch(actions.fetchDailyUpdates({ token, accountName, createdAt, team }))
+		onDailyUpdatesFetch: ({ token, accountName, createdAt, team, startDate, endDate }) => {
+			return dispatch(actions.fetchDailyUpdates({ token, accountName, createdAt, team, startDate, endDate }));
+		}
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Reports, axios));

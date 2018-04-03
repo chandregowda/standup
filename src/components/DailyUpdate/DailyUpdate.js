@@ -20,7 +20,8 @@ class DailyUpdate extends Component {
 					onClick={() =>
 						this.props.onDeleteDailyUpdate({
 							id: data._id,
-							createdAt: data.createdAt,
+							startDate: this.props.startDate,
+							endDate: this.props.endDate,
 							accountName: data.accountName
 						})}
 				>
@@ -66,8 +67,9 @@ class DailyUpdate extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onDeleteDailyUpdate: ({ id, createdAt, accountName }) =>
-			dispatch(actions.deleteDailyUpdate({ id, createdAt, accountName }))
+		onDeleteDailyUpdate: ({ id, startDate, endDate, accountName }) => {
+			dispatch(actions.deleteDailyUpdate({ id, startDate, endDate, accountName }));
+		}
 	};
 };
 

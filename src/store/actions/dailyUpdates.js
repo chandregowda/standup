@@ -84,7 +84,7 @@ export const fetchDailyUpdatesFail = (error) => {
 		payload: error
 	};
 };
-export const fetchDailyUpdates = ({ token, accountName, createdAt, team }) => {
+export const fetchDailyUpdates = ({ token, accountName = null, createdAt = null, team = null, startDate, endDate }) => {
 	return (dispatch) => {
 		dispatch(fetchDailyUpdatesStart());
 		let queryList = [];
@@ -94,9 +94,24 @@ export const fetchDailyUpdates = ({ token, accountName, createdAt, team }) => {
 		if (accountName && accountName.trim()) {
 			queryList.push(`accountName=${accountName}`);
 		}
-		if (createdAt && parseInt(createdAt, 10)) {
+
+		if (startDate && endDate) {
+			if (typeof startDate === 'object') {
+				startDate = startDate.format('x');
+			}
+			if (typeof endDate === 'object') {
+				endDate = endDate.format('x');
+			}
+			if (startDate && parseInt(startDate, 10)) {
+				queryList.push(`startDate=${startDate}`);
+			}
+			if (endDate && parseInt(endDate, 10)) {
+				queryList.push(`endDate=${endDate}`);
+			}
+		} else if (createdAt && parseInt(createdAt, 10)) {
 			queryList.push(`createdAt=${createdAt}`);
 		}
+
 		const token = localStorage.getItem('token');
 		axios
 			.post(`/dailyUpdate/get?${queryList.join('&')}`, { token })
@@ -137,7 +152,8 @@ export const deleteDailyUpdateFail = (error) => {
 
 export const deleteDailyUpdate = ({
 	id,
-	createdAt = +moment().startOf('date'),
+	startDate = +moment().startOf('week'),
+	endDate = +moment().endOf('week'),
 	accountName = localStorage.getItem('accountName')
 }) => {
 	return (dispatch) => {
@@ -148,7 +164,7 @@ export const deleteDailyUpdate = ({
 			.post(`/dailyUpdate/delete?id=${id}&accountName=${accountName}`, { token })
 			.then((response) => {
 				dispatch(deleteDailyUpdateSuccess(response.data));
-				dispatch(fetchDailyUpdates({ id, createdAt, accountName: null })); // dont want to filter by user at this moment, so passing null
+				dispatch(fetchDailyUpdates({ id, startDate, endDate })); // dont want to filter by user at this moment, so passing null
 			})
 			.catch((e) => {
 				console.log('Failed to delete team room from db', e);
