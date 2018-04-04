@@ -183,6 +183,8 @@ class DailyUpdates extends Component {
 
 		let form = (
 			<form className={classes.Form} onSubmit={this.submitHandler}>
+				<h2>My Updates for {this.state.createdAt.format('dddd, MMMM Do YYYY')}</h2>
+
 				<SingleDatePicker
 					date={this.state.createdAt}
 					onDateChange={this.handleDateChange}
@@ -193,7 +195,6 @@ class DailyUpdates extends Component {
 					small
 					isOutsideRange={() => false}
 				/>
-				<h4>{this.state.createdAt.format('dddd, MMMM Do YYYY')}</h4>
 				{formElements.map((elem) => {
 					return (
 						<Input
@@ -231,11 +232,12 @@ class DailyUpdates extends Component {
 
 		return (
 			<div className={classes.DailyUpdates}>
-				<div className={classes.imgContainer}>
-					<img src={standUpImage} className={classes.img} alt="Standup" />
-				</div>
-
-				{form}
+				{null && (
+					<div className={classes.imgContainer}>
+						<img src={standUpImage} className={classes.img} alt="Standup" />
+					</div>
+				)}
+				<div className={classes.FormContainer}>{form} </div>
 			</div>
 		);
 	}

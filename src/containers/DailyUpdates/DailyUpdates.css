@@ -3,6 +3,10 @@
 	text-align: center;
 	box-sizing: border-box;
 	display: flex;
+	justify-content: center;
+}
+.FormContainer {
+	width: 60%;
 }
 .Form {
 	margin: 10px auto;
@@ -26,8 +30,13 @@
 	font-weight: bold;
 }
 @media (max-width: 700px) {
-	.DailyUpdates {
+	/* .DailyUpdates {
 		display: block;
+		margin: 0 auto;
+		text-align: center;
+	} */
+	.FormContainer {
+		width: 95%;
 	}
 	.imgContainer {
 		/* height: 30%; */
