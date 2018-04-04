@@ -58,12 +58,9 @@ export const auth = (email, password, isSignIn) => {
 			},
 			function(error) {
 				if (!error.response) {
-					console.log('Only error');
 					console.log(error);
 					return Promise.reject(error);
 				} else if (!error.response.data) {
-					// console.log('No Response Data');
-					// console.log(error.response);
 					error.response.data = { error: { message: `ERROR: Status ${error.response.status}` } };
 					return Promise.reject(error);
 				}

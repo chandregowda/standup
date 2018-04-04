@@ -132,7 +132,7 @@ class Reports extends Component {
 				);
 			} else {
 				dailyUpdatesList = itemList.map((du, index) => {
-					let teamRoomDisplayName = this.props.teamRoomsMap[du.teamRoom];
+					let teamRoomDisplayName = this.props.teamRoomsMap[du.teamRoom] || du.teamRoom; // In case some one deletes the existing team room
 					return (
 						<Auxiliary key={du._id}>
 							<DailyUpdate
@@ -183,6 +183,7 @@ class Reports extends Component {
 								showClearDates={false}
 								numberOfMonths={1}
 								isOutsideRange={() => false}
+								minimumNights={0}
 								small
 							/>
 							<div>{selectElement}</div>

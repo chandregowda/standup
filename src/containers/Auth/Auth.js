@@ -8,12 +8,13 @@ import Button from '../../components/UI/Button/Button';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import homeImage from '../../assets/images/DailyStandup3Ds.png';
+import { inputChangeHandler } from '../../utility';
 
 class Auth extends Component {
 	state = {
 		formIsValid: false,
 		isSignUp: false,
-		controls: {
+		formFields: {
 			email: {
 				elementType: 'input',
 				elementConfig: {
@@ -52,45 +53,20 @@ class Auth extends Component {
 		});
 	};
 
-	validateFormFields = (value, rules) => {
-		let isValid = true;
-		if (!rules) {
-			return isValid;
-		}
-		value = value.trim();
-		if (rules.required) {
-			isValid = value !== '';
-		}
-		if (isValid && rules.minimumLength) {
-			isValid = value.length >= rules.minimumLength;
-		}
-		if (isValid && rules.maximumLength) {
-			isValid = value.length <= rules.maximumLength;
-		}
-		// console.log(`isValid : ${isValid}`);
-		return isValid;
-	};
-
-	inputChangeHandler = (event, identifier) => {
-		const updatedFormData = { ...this.state.controls };
-		const updatedFormElement = { ...updatedFormData[identifier] };
-		updatedFormElement.value = event.target.value;
-		updatedFormElement.isValid = this.validateFormFields(updatedFormElement.value, updatedFormElement.validation);
-		updatedFormElement.touched = true;
-		updatedFormData[identifier] = updatedFormElement;
-		// console.log(updatedFormElement);
-		let formIsValid = true;
-		for (let inputIdentifer in updatedFormData) {
-			formIsValid = updatedFormData[inputIdentifer].isValid && formIsValid;
-		}
-		this.setState({ controls: updatedFormData, formIsValid: formIsValid });
+	onInputChange = (event, identifier) => {
+		let { formFields, formIsValid } = inputChangeHandler({
+			state: this.state,
+			value: event.target.value,
+			identifier
+		});
+		this.setState({ formFields, formIsValid });
 	};
 
 	signInHandler = (event) => {
 		event.preventDefault();
 		this.props.onFormSubmit(
-			this.state.controls.email.value,
-			this.state.controls.password.value,
+			this.state.formFields.email.value,
+			this.state.formFields.password.value,
 			this.state.isSignUp
 		);
 	};
@@ -101,10 +77,10 @@ class Auth extends Component {
 		}
 
 		let formElements = [];
-		for (let key in this.state.controls) {
+		for (let key in this.state.formFields) {
 			formElements.push({
 				id: key,
-				config: this.state.controls[key]
+				config: this.state.formFields[key]
 			});
 		}
 		let form = (
@@ -116,10 +92,12 @@ class Auth extends Component {
 							isValid={elem.config.isValid}
 							shouldValidate={elem.config.validation}
 							hasTouched={elem.config.touched}
-							changed={(event) => this.inputChangeHandler(event, elem.id)}
+							changed={(event) => this.onInputChange(event, elem.id)}
 							elementType={elem.config.elementType}
+							options={null}
 							elementConfig={elem.config.elementConfig}
 							value={elem.config.value}
+							label={elem.config.label}
 						/>
 					);
 				})}
