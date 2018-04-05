@@ -11,6 +11,7 @@ import thunk from 'redux-thunk';
 
 import dailyUpdatesReducer from './store/reducers/dailyUpdates';
 import teamRoomsReducer from './store/reducers/teamRooms';
+import usersReducer from './store/reducers/users';
 import authReducer from './store/reducers/auth';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -18,7 +19,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
 	dailyUpdates: dailyUpdatesReducer,
 	auth: authReducer,
-	teamRooms: teamRoomsReducer
+	teamRooms: teamRoomsReducer,
+	users: usersReducer
 });
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 const app = (

@@ -51,7 +51,7 @@
 }
 .TabHeader > article,
 .TabDetails > article {
-	border: 1px solid #eee;
+	border: 1px solid rgb(209, 232, 243);
 	flex-grow: 1;
 	flex-basis: auto;
 	padding: 5px 10px;
@@ -74,13 +74,14 @@
 }
 .Comment pre {
 	white-space: pre-line;
-	font-size: 1.2em;
+	font-size: 1em;
+	font-family: inherit;
 }
 
 .User {
 	font-weight: bold;
 	color: #25c0f0;
-	font-size: 1.2rem;
+	font-size: 14px;
 }
 .TeamRoom {
 	display: inline-block;

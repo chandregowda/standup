@@ -39,6 +39,10 @@ class TeamRooms extends Component {
 			this.props.onTeamRoomsFetch();
 		}
 		this.props.onTeamRoomReset();
+		// if (this.props.users.keys().length === 0) {
+		// Try to avoid calling this on every visit
+		this.props.onUsersFetch();
+		// }
 	}
 	onInputChange = (event, identifier) => {
 		let { formFields, formIsValid } = inputChangeHandler({
@@ -115,7 +119,9 @@ class TeamRooms extends Component {
 			teamRoomsList = <Spinner />;
 		} else {
 			teamRoomsList = this.props.teamRooms.map((tr, index) => {
-				return <TeamRoom data={tr} key={tr._id} accountName={this.props.accountName} />;
+				return (
+					<TeamRoom data={tr} key={tr._id} accountName={this.props.accountName} users={this.props.users} />
+				);
 			});
 		}
 
@@ -136,14 +142,16 @@ const mapStateToProps = (state) => {
 		error: state.teamRooms.error,
 		message: state.teamRooms.message,
 		teamRooms: state.teamRooms.teamRooms,
-		accountName: state.auth.accountName
+		accountName: state.auth.accountName,
+		users: state.users.usersMap
 	};
 };
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onTeamRoomsFetch: (owner = null, id = null) => dispatch(actions.fetchTeamRooms({ owner, id })),
 		onTeamRoomAdd: (data) => dispatch(actions.addTeamRoom(data)),
-		onTeamRoomReset: (data) => dispatch(actions.teamRoomReset())
+		onTeamRoomReset: (data) => dispatch(actions.teamRoomReset()),
+		onUsersFetch: (accountName = null, id = null) => dispatch(actions.fetchUsers({ accountName, id }))
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(TeamRooms, axios));
