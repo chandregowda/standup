@@ -31,6 +31,67 @@
 	padding-top: 10px;
 }
 
+.TabularContainer {
+	border: 1px solid #ccc;
+	box-shadow: 0 0 5px gray;
+	padding: 10px;
+	margin-top: 10px;
+}
+.TabHeader {
+	font-weight: bold;
+	color: white;
+}
+.TabHeader,
+.TabDetails {
+	display: flex;
+	justify-content: space-between;
+}
+.TabHeader > div {
+	text-align: center;
+}
+.TabHeader > article,
+.TabDetails > article {
+	border: 1px solid #eee;
+	flex-grow: 1;
+	flex-basis: auto;
+	padding: 5px 10px;
+	width: 25%;
+	text-align: start;
+}
+.TabHeader > article {
+	text-align: center;
+	background-color: #25c0f0;
+}
+.TabHeader > article.Member,
+.TabDetails > article.Member {
+	width: 15%;
+}
+.Comment {
+	padding: 0px 15px;
+	color: #2d2d2d;
+	font-style: italic;
+	text-align: start;
+}
+.Comment pre {
+	white-space: pre-line;
+	font-size: 1.2em;
+}
+
+.User {
+	font-weight: bold;
+	color: #25c0f0;
+	font-size: 1.2rem;
+}
+.TeamRoom {
+	display: inline-block;
+	color: orange;
+	font-size: 12px;
+}
+.CreatedAt {
+	color: gray;
+	font-size: 12px;
+}
+
 @media only print {
 	.PrintShow {
 		display: block;
@@ -44,6 +105,12 @@
 	.pagebreak {
 		display: block;
 		page-break-after: always;
+		page-break-inside: avoid;
+		break-before: always;
+	}
+	.pagebreakTabReport {
+		display: block;
+		page-break-after: right;
 		page-break-inside: avoid;
 		break-before: always;
 	}

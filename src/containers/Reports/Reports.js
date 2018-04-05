@@ -23,6 +23,7 @@ class Reports extends Component {
 		selectedTeam: '',
 		nameFilter: '',
 		showOnlyMyUpdates: false,
+		isTabView: false,
 		createdAt: moment(),
 		calendarFocused: null,
 		startDate: moment().startOf('date'),
@@ -109,18 +110,26 @@ class Reports extends Component {
 			nameFilter: ''
 		}));
 	};
+	handleView = () => {
+		this.setState((prevState) => ({
+			isTabView: !prevState.isTabView
+		}));
+	};
 
 	render() {
-		let dailyUpdatesList = null;
+		let dailyUpdatesList = null,
+			tabularList = null,
+			tabContent = null;
 		let filteredDailyUpdates = this.filterDailyUpdates();
-
+		let itemList = null;
 		if (this.props.loading) {
 			dailyUpdatesList = <Spinner />;
 		} else {
-			let itemList =
+			itemList =
 				this.state.selectedTeam || this.state.showOnlyMyUpdates || this.state.nameFilter
 					? filteredDailyUpdates
 					: this.props.dailyUpdates;
+
 			if (itemList.length === 0) {
 				dailyUpdatesList = (
 					<Auxiliary>
@@ -146,6 +155,46 @@ class Reports extends Component {
 						</Auxiliary>
 					);
 				});
+				// This should be moved out to another component
+				tabularList = itemList.map((du, index) => {
+					let teamRoomDisplayName = this.props.teamRoomsMap[du.teamRoom] || du.teamRoom; // In case some one deletes the existing team room
+					return (
+						<Auxiliary key={du._id}>
+							<div className={classes.TabDetails}>
+								<div className={classes.pagebreakTabReport}> </div>
+
+								<article className={classes.Member}>
+									<div className={classes.User}>{du.displayName}</div>
+									<div className={classes.TeamRoom}>{teamRoomDisplayName}</div>
+									<div className={classes.CreatedAt}>
+										{moment.unix(du.createdAt / 1000).format('dddd, MMMM Do YYYY')}
+									</div>
+								</article>
+								<article className={classes.Comment}>
+									<pre> {du.yesterday} </pre>
+								</article>
+								<article className={classes.Comment}>
+									<pre> {du.today} </pre>
+								</article>
+								<article className={classes.Comment}>
+									<pre> {du.obstacles} </pre>
+								</article>
+							</div>
+						</Auxiliary>
+					);
+				});
+
+				tabContent = (
+					<section className={classes.TabularContainer}>
+						<div className={classes.TabHeader}>
+							<article className={classes.Member}>Member</article>
+							<article>What I did last day</article>
+							<article>What I will do today</article>
+							<article>What are my Obstacle</article>
+						</div>
+						{tabularList}
+					</section>
+				);
 			}
 		}
 
@@ -202,13 +251,18 @@ class Reports extends Component {
 							</div>
 							<div className={classes.CheckboxContainer}>
 								<label>
-									<input type="checkbox" onChange={this.handleShowMyUpdates} /> Show only my updates
+									<input type="checkbox" onChange={this.handleShowMyUpdates} /> View only my updates
+								</label>
+							</div>
+							<div className={classes.CheckboxContainer}>
+								<label>
+									<input type="checkbox" onChange={this.handleView} /> View Tabular Report
 								</label>
 							</div>
 						</div>
 					</div>
 				</Auxiliary>
-				<div className={classes.UpdatesContainer}>{dailyUpdatesList}</div>
+				{this.state.isTabView ? tabContent : <div className={classes.UpdatesContainer}>{dailyUpdatesList}</div>}
 			</div>
 		);
 	}

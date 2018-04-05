@@ -9,7 +9,7 @@ import * as actions from '../../store/actions/index';
 class DailyUpdate extends Component {
 	render() {
 		let data = this.props.data;
-		let dateTime = true && (
+		let dateTime = (
 			<p className={classes.CreatedAt}>{moment.unix(data.createdAt / 1000).format('dddd, MMMM Do YYYY')}</p>
 		);
 		let actionItems = null;
