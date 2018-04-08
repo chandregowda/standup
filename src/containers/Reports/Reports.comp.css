@@ -8,17 +8,7 @@
 	flex-wrap: wrap;
 	justify-content: space-around;
 }
-.PrintShow {
-	display: none;
-}
-.PrintHide {
-	display: block;
-}
 
-.FilterContainer {
-	display: flex;
-	justify-content: center;
-}
 .NoData {
 	display: flex;
 	flex-direction: column;
@@ -26,9 +16,6 @@
 
 .pagebreak {
 	display: none;
-}
-.CheckboxContainer {
-	padding-top: 10px;
 }
 
 .TabularContainer {
@@ -74,7 +61,7 @@
 }
 .Comment pre {
 	white-space: pre-line;
-	font-size: 1em;
+	font-size: 0.9em;
 	font-family: inherit;
 }
 
@@ -94,12 +81,6 @@
 }
 
 @media only print {
-	.PrintShow {
-		display: block;
-	}
-	.PrintHide {
-		display: none;
-	}
 	.UpdatesContainer {
 		display: block;
 	}

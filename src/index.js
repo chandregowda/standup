@@ -15,6 +15,7 @@ import retrospectionsReducer from './store/reducers/retrospections';
 import teamRoomsReducer from './store/reducers/teamRooms';
 import usersReducer from './store/reducers/users';
 import authReducer from './store/reducers/auth';
+import filtersReducer from './store/reducers/filters';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // Multiple reducers are mapped here
@@ -23,8 +24,10 @@ const rootReducer = combineReducers({
 	retrospections: retrospectionsReducer,
 	auth: authReducer,
 	teamRooms: teamRoomsReducer,
-	users: usersReducer
+	users: usersReducer,
+	filters: filtersReducer
 });
+
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
 const app = (
 	<Provider store={store}>

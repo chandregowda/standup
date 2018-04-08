@@ -3,3 +3,4 @@ export { dailyUpdatesReset, submitDailyUpdates, fetchDailyUpdates, deleteDailyUp
 export { retrospectionsReset, submitRetrospections, fetchRetrospections, deleteRetrospection } from './retrospections';
 export { teamRoomReset, addTeamRoom, deleteTeamRoom, fetchTeamRooms } from './teamRooms';
 export { userReset, fetchUsers } from './users';
+export * from './filters';

@@ -1,0 +1,26 @@
+.Filters {
+	font-size: inherit;
+}
+
+.PrintShow {
+	display: none;
+}
+.PrintHide {
+	display: block;
+}
+
+.FilterContainer {
+	display: flex;
+	justify-content: center;
+}
+.CheckboxContainer {
+	padding-top: 10px;
+}
+@media only print {
+	.PrintShow {
+		display: block;
+	}
+	.PrintHide {
+		display: none;
+	}
+}
