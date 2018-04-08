@@ -5,19 +5,19 @@ import { DateRangePicker } from 'react-dates';
 import axios from 'axios';
 import uuid from 'uuid';
 
-import classes from './Reports.css';
+import classes from './RetroReports.css';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import MainTitle from '../../components/MainTitle/MainTitle';
 import Input from '../../components/UI/Input/Input';
 
-import DailyUpdate from '../../components/DailyUpdate/DailyUpdate';
+import Retrospection from '../../components/Retrospection/Retrospection';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
 import * as actions from '../../store/actions/index';
 
 import noDataImage from '../../assets/images/nodata.jpg';
 
-class Reports extends Component {
+class RetroReports extends Component {
 	state = {
 		team: '',
 		selectedTeam: '',
@@ -30,20 +30,20 @@ class Reports extends Component {
 		endDate: moment().endOf('date')
 	};
 
-	getReports = () => {
+	getRetroReports = () => {
 		if (this.state.startDate && this.state.endDate) {
-			this.props.onDailyUpdatesFetch({
+			this.props.onRetrospectionsFetch({
 				token: this.props.token,
 				accountName: null,
 				createdAt: +this.state.createdAt.startOf('date'),
 				team: null,
-				startDate: this.state.startDate ? +this.state.startDate.startOf('date') : null,
-				endDate: this.state.endDate ? +this.state.endDate.endOf('date') : null
+				startDate: this.state.startDate ? +this.state.startDate.startOf('week') : null,
+				endDate: this.state.endDate ? +this.state.endDate.endOf('week') : null
 			});
 		}
 	};
 	componentDidMount() {
-		this.getReports();
+		this.getRetroReports();
 		if (this.props.teamRooms.length === 0) {
 			this.props.onTeamRoomsFetch();
 		}
@@ -58,7 +58,7 @@ class Reports extends Component {
 			}),
 			() => {
 				// console.log('Calling Fetch after setstate is completed');
-				this.getReports();
+				this.getRetroReports();
 			}
 		);
 		// }
@@ -70,8 +70,8 @@ class Reports extends Component {
 		}));
 	};
 
-	filterDailyUpdates = () => {
-		let filteredDailyUpdates = this.props.dailyUpdates.filter((item) => {
+	filterRetrospections = () => {
+		let filteredRetrospections = this.props.retrospections.filter((item) => {
 			let myUpdates = true;
 			if (this.state.showOnlyMyUpdates) {
 				myUpdates = item.accountName === this.props.accountName;
@@ -86,8 +86,8 @@ class Reports extends Component {
 
 			return myUpdates && nameFilter && (!this.state.selectedTeam || item.teamRoom === this.state.selectedTeam);
 		});
-		// console.log(filteredDailyUpdates);
-		return filteredDailyUpdates;
+		// console.log(filteredRetrospections);
+		return filteredRetrospections;
 	};
 
 	onSelectChange = (event, identifier) => {
@@ -117,21 +117,21 @@ class Reports extends Component {
 	};
 
 	render() {
-		let dailyUpdatesList = null,
+		let retrospectionsList = null,
 			tabularList = null,
 			tabContent = null;
-		let filteredDailyUpdates = this.filterDailyUpdates();
+		let filteredRetrospections = this.filterRetrospections();
 		let itemList = null;
 		if (this.props.loading) {
-			dailyUpdatesList = <Spinner />;
+			retrospectionsList = <Spinner />;
 		} else {
 			itemList =
 				this.state.selectedTeam || this.state.showOnlyMyUpdates || this.state.nameFilter
-					? filteredDailyUpdates
-					: this.props.dailyUpdates;
+					? filteredRetrospections
+					: this.props.retrospections;
 
 			if (itemList.length === 0) {
-				dailyUpdatesList = (
+				retrospectionsList = (
 					<Auxiliary>
 						<div className={classes.NoData}>
 							<img src={noDataImage} alt="No Data" />
@@ -140,11 +140,11 @@ class Reports extends Component {
 					</Auxiliary>
 				);
 			} else {
-				dailyUpdatesList = itemList.map((du, index) => {
+				retrospectionsList = itemList.map((du, index) => {
 					let teamRoomDisplayName = this.props.teamRoomsMap[du.teamRoom] || du.teamRoom; // In case some one deletes the existing team room
 					return (
 						<Auxiliary key={du._id}>
-							<DailyUpdate
+							<Retrospection
 								data={du}
 								accountName={this.props.accountName}
 								teamRoomDisplayName={teamRoomDisplayName}
@@ -164,20 +164,20 @@ class Reports extends Component {
 								<div className={classes.pagebreakTabReport}> </div>
 
 								<article className={classes.Member}>
-									<div className={classes.User}>{du.displayName}</div>
+									<div className={classes.User}>Anonymous</div>
 									<div className={classes.TeamRoom}>{teamRoomDisplayName}</div>
 									<div className={classes.CreatedAt}>
 										{moment.unix(du.createdAt / 1000).format('dddd, MMMM Do YYYY')}
 									</div>
 								</article>
 								<article className={classes.Comment}>
-									<pre> {du.yesterday} </pre>
+									<pre> {du.right} </pre>
 								</article>
 								<article className={classes.Comment}>
-									<pre> {du.today} </pre>
+									<pre> {du.wrong} </pre>
 								</article>
 								<article className={classes.Comment}>
-									<pre> {du.obstacles} </pre>
+									<pre> {du.suggestion} </pre>
 								</article>
 							</div>
 						</Auxiliary>
@@ -188,9 +188,9 @@ class Reports extends Component {
 					<section className={classes.TabularContainer}>
 						<div className={classes.TabHeader}>
 							<article className={classes.Member}>Member</article>
-							<article>What I did last day</article>
-							<article>What I will do today</article>
-							<article>What are my Obstacle</article>
+							<article>What worked or went well</article>
+							<article>What caused problems</article>
+							<article>What can be done differently</article>
 						</div>
 						{tabularList}
 					</section>
@@ -212,12 +212,12 @@ class Reports extends Component {
 		);
 
 		return (
-			<div className={classes.Reports}>
+			<div className={classes.RetroReports}>
 				<Auxiliary>
 					<div className={classes.PrintShow}>
 						<MainTitle />
 					</div>
-					<h2> Daily Standup Updates Report</h2>
+					<h2>Retrospection Report</h2>
 					<div className={classes.PrintHide}>
 						<div className={classes.FilterContainer}>
 							<DateRangePicker
@@ -236,19 +236,21 @@ class Reports extends Component {
 								small
 							/>
 							<div>{selectElement}</div>
-							<div>
-								<Input
-									changed={(event) => this.onInputChange(event)}
-									elementType="text"
-									options={null}
-									elementConfig={{
-										type: 'text',
-										placeholder: 'Filter by name',
-										readOnly: this.state.showOnlyMyUpdates
-									}}
-									value={this.state.nameFilter}
-								/>
-							</div>
+							{null && (
+								<div>
+									<Input
+										changed={(event) => this.onInputChange(event)}
+										elementType="text"
+										options={null}
+										elementConfig={{
+											type: 'text',
+											placeholder: 'Filter by name',
+											readOnly: this.state.showOnlyMyUpdates
+										}}
+										value={this.state.nameFilter}
+									/>
+								</div>
+							)}
 							<div className={classes.CheckboxContainer}>
 								<label>
 									<input type="checkbox" onChange={this.handleShowMyUpdates} /> View only my updates
@@ -262,7 +264,11 @@ class Reports extends Component {
 						</div>
 					</div>
 				</Auxiliary>
-				{this.state.isTabView ? tabContent : <div className={classes.UpdatesContainer}>{dailyUpdatesList}</div>}
+				{this.state.isTabView ? (
+					tabContent
+				) : (
+					<div className={classes.UpdatesContainer}>{retrospectionsList}</div>
+				)}
 			</div>
 		);
 	}
@@ -270,8 +276,8 @@ class Reports extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		loading: state.dailyUpdates.loading,
-		dailyUpdates: state.dailyUpdates.dailyUpdates,
+		loading: state.retrospections.loading,
+		retrospections: state.retrospections.retrospections,
 		token: state.auth.token,
 		teamRooms: state.teamRooms.teamRooms,
 		teamRoomsMap: state.teamRooms.teamRoomsMap,
@@ -281,9 +287,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onTeamRoomsFetch: (owner = null, id = null) => dispatch(actions.fetchTeamRooms({ owner, id })),
-		onDailyUpdatesFetch: ({ token, accountName, createdAt, team, startDate, endDate }) => {
-			return dispatch(actions.fetchDailyUpdates({ token, accountName, createdAt, team, startDate, endDate }));
+		onRetrospectionsFetch: ({ token, accountName, createdAt, team, startDate, endDate }) => {
+			return dispatch(actions.fetchRetrospections({ token, accountName, createdAt, team, startDate, endDate }));
 		}
 	};
 };
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Reports, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(RetroReports, axios));

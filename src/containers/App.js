@@ -10,7 +10,9 @@ import Auth from './Auth/Auth';
 import Logout from './Auth/Logout/Logout';
 import * as actions from '../store/actions/index';
 import DailyUpdates from './DailyUpdates/DailyUpdates';
+import Retrospections from './Retrospections/Retrospections';
 import Reports from './Reports/Reports';
+import RetroReports from './RetroReports/RetroReports';
 import TeamRooms from './TeamRooms/TeamRooms';
 import Home from '../components/Home/Home';
 
@@ -39,6 +41,8 @@ class App extends Component {
 					<Route path="/logout" component={Logout} />
 					<Route path="/Reports" component={Reports} />
 					<Route path="/dailyUpdates" component={DailyUpdates} />
+					<Route path="/retrospections" component={Retrospections} />
+					<Route path="/retroReports" component={RetroReports} />
 					<Route path="/teamRooms" component={TeamRooms} />
 					<Route path="/" exact component={Home} />
 				</Switch>

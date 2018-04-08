@@ -1,0 +1,54 @@
+.Retrospections {
+	font-size: inherit;
+	text-align: center;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+}
+.FormContainer {
+	width: 60%;
+}
+.Form {
+	margin: 10px auto;
+	/* width: 80%; */
+	text-align: center;
+	box-shadow: 0 2px 3px #ccc;
+	border: 1px solid #eee;
+	padding: 10px;
+	box-sizing: border-box;
+	width: 100%;
+}
+.Error {
+	color: #fff;
+	padding: 5px 50px;
+	background: red;
+}
+.Message {
+	color: #1e1e1e;
+	padding: 5px 50px;
+	background: lightgreen;
+	font-weight: bold;
+}
+@media (max-width: 700px) {
+	/* .Retrospections {
+		display: block;
+		margin: 0 auto;
+		text-align: center;
+	} */
+	.FormContainer {
+		width: 95%;
+	}
+	.imgContainer {
+		/* height: 30%; */
+		display: none;
+	}
+}
+/* @media (max-width: 600px) {
+	.imgContainer {
+		height: 30%;
+	}
+	.imgContainer img {
+		width: 80%;
+		height: auto;
+	}
+} */

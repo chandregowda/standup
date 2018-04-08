@@ -1,0 +1,77 @@
+.Retrospection {
+	border: 1px solid #eee;
+	box-sizing: border-box;
+	box-shadow: 1px 2px 3px #ccc;
+	text-align: left;
+	padding: 5px;
+	margin: 10px 5px;
+	min-width: 45%;
+	flex-basis: 0;
+	flex-grow: 1;
+}
+.User {
+	font-weight: bold;
+	color: #3b97e0;
+	font-size: 1.5rem;
+}
+.TeamRoom {
+	display: inline-block;
+	color: orange;
+	font-size: 12px;
+	margin: 0 5px;
+}
+.CreatedAt {
+	color: gray;
+	font-size: 12px;
+}
+.CommentContainer {
+	margin: 10px;
+	border: 1px solid silver;
+	padding: 10px;
+}
+.CommentContainer label {
+	font-weight: inherit;
+}
+.Comment {
+	padding: 0px 15px;
+	color: #2d2d2d;
+	font-style: italic;
+}
+.Comment pre {
+	white-space: pre-wrap;
+	font-size: 1.2em;
+}
+.Yesterday {
+	color: green;
+}
+.Today {
+	color: orange;
+}
+.Obstacle {
+	color: red;
+}
+
+.Toolbar {
+	display: flex;
+	justify-content: space-between;
+}
+.Delete {
+	display: inline-block;
+	border-radius: 50%;
+	width: 20px;
+	padding: 2px;
+	cursor: pointer;
+	color: #ccc;
+	text-align: center;
+	line-height: 16px;
+	font-size: 16px;
+}
+.Delete:hover {
+	color: orange;
+	font-weight: bold;
+}
+@media (max-width: 700px) {
+	.Retrospection {
+		min-width: 95%;
+	}
+}
