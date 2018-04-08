@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import classes from './TeamRooms.css';
+import classes from './TeamRooms.comp.css';
 // import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import TeamRoom from '../../components/TeamRoom/TeamRoom';
 import Spinner from '../../components/UI/Spinner/Spinner';

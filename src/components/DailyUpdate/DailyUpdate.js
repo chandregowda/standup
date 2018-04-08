@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import classes from './DailyUpdate.css';
+import classes from './DailyUpdate.comp.css';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import withErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';

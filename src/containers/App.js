@@ -18,7 +18,8 @@ import Home from '../components/Home/Home';
 
 // This _datepicker css is required for Calander component
 import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
+import 'react-dates/lib/css/_datepicker.css?raw';
+import '../assets/css/react-dates.vendor.css?raw';
 
 class App extends Component {
 	componentDidMount() {

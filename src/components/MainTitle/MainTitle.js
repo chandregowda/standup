@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './MainTitle.css';
+import classes from './MainTitle.comp.css';
 import kshipaniImage from '../../assets/images/kshipani.png';
 
 const mainTitle = (props) => {

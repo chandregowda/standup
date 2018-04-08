@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import classes from './Home.css';
+import classes from './Home.comp.css';
 import homeImage from '../../assets/images/standup-meeting.jpg';
 import MainTitle from '../MainTitle/MainTitle';
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { SingleDatePicker } from 'react-dates';
 
-import classes from './Retrospections.css';
+import classes from './Retrospections.comp.css';
 
 import WithErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
 import * as actions from '../../store/actions/index';

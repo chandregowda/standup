@@ -5,7 +5,7 @@ import { DateRangePicker } from 'react-dates';
 import axios from 'axios';
 import uuid from 'uuid';
 
-import classes from './Reports.css';
+import classes from './Reports.comp.css';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import MainTitle from '../../components/MainTitle/MainTitle';
 import Input from '../../components/UI/Input/Input';

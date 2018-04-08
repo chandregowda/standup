@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import classes from './TeamRoom.css';
+import classes from './TeamRoom.comp.css';
 import * as actions from '../../store/actions/index';
 // import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';

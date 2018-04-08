@@ -6,7 +6,7 @@ import { SingleDatePicker } from 'react-dates';
 // import { DateRangePicker } from 'react-dates';
 // import uuid from 'uuid';
 
-import classes from './DailyUpdates.css';
+import classes from './DailyUpdates.comp.css';
 import standUpImage from '../../assets/images/scrum-daily-standup.jpg';
 
 import WithErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
