@@ -3,6 +3,12 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
+		"@fortawesome/fontawesome": "^1.1.5",
+		"@fortawesome/fontawesome-free-brands": "^5.0.9",
+		"@fortawesome/fontawesome-free-regular": "^5.0.9",
+		"@fortawesome/fontawesome-free-solid": "^5.0.9",
+		"@fortawesome/fontawesome-free-webfonts": "^1.0.5",
+		"@fortawesome/react-fontawesome": "0.0.18",
 		"autoprefixer": "7.1.6",
 		"axios": "^0.18.0",
 		"babel-core": "6.26.0",
@@ -58,8 +64,12 @@
 		"test": "node scripts/test.js --env=jsdom"
 	},
 	"jest": {
-		"collectCoverageFrom": [ "src/**/*.{js,jsx,mjs}" ],
-		"setupFiles": [ "<rootDir>/config/polyfills.js" ],
+		"collectCoverageFrom": [
+			"src/**/*.{js,jsx,mjs}"
+		],
+		"setupFiles": [
+			"<rootDir>/config/polyfills.js"
+		],
 		"testMatch": [
 			"<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
 			"<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
@@ -71,14 +81,26 @@
 			"^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
 			"^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
 		},
-		"transformIgnorePatterns": [ "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$" ],
+		"transformIgnorePatterns": [
+			"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
+		],
 		"moduleNameMapper": {
 			"^react-native$": "react-native-web"
 		},
-		"moduleFileExtensions": [ "web.js", "mjs", "js", "json", "web.jsx", "jsx", "node" ]
+		"moduleFileExtensions": [
+			"web.js",
+			"mjs",
+			"js",
+			"json",
+			"web.jsx",
+			"jsx",
+			"node"
+		]
 	},
 	"babel": {
-		"presets": [ "react-app" ]
+		"presets": [
+			"react-app"
+		]
 	},
 	"eslintConfig": {
 		"extends": "react-app"

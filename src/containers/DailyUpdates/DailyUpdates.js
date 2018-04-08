@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment';
 import { SingleDatePicker } from 'react-dates';
-// import { DateRangePicker } from 'react-dates';
-// import uuid from 'uuid';
+
+// import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+// import faCoffee from '@fortawesome/fontawesome-free-solid/faCoffee';
 
 import classes from './DailyUpdates.comp.css';
-import standUpImage from '../../assets/images/scrum-daily-standup.jpg';
 
 import WithErrorHandler from '../../hoc/WithErrorHandler/WithErrorHandler';
 import * as actions from '../../store/actions/index';
@@ -232,11 +232,7 @@ class DailyUpdates extends Component {
 
 		return (
 			<div className={classes.DailyUpdates}>
-				{null && (
-					<div className={classes.imgContainer}>
-						<img src={standUpImage} className={classes.img} alt="Standup" />
-					</div>
-				)}
+				{/* <FontAwesomeIcon icon={faCoffee} /> */}
 				<div className={classes.FormContainer}>{form} </div>
 			</div>
 		);
